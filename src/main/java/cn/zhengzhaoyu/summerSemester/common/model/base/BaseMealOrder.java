@@ -18,4 +18,40 @@ public abstract class BaseMealOrder<M extends BaseMealOrder<M>> extends Model<M>
 		return get("id");
 	}
 
+	public M setType(java.lang.Integer type) {
+		set("type", type);
+		return (M)this;
+	}
+
+	public java.lang.Integer getType() {
+		return get("type");
+	}
+
+	public M setPlace(java.lang.Integer place) {
+		set("place", place);
+		return (M)this;
+	}
+
+	public java.lang.Integer getPlace() {
+		return get("place");
+	}
+
+	public M setOrderText(java.lang.String orderText) {
+		set("order_text", orderText);
+		return (M)this;
+	}
+
+	public java.lang.String getOrderText() {
+		return get("order_text");
+	}
+
+	public M setState(java.lang.Integer state) {
+		set("state", state);
+		return (M)this;
+	}
+
+	public java.lang.Integer getState() {
+		return get("state");
+	}
+
 }

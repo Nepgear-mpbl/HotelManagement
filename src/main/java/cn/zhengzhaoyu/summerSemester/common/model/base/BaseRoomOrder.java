@@ -63,4 +63,13 @@ public abstract class BaseRoomOrder<M extends BaseRoomOrder<M>> extends Model<M>
 		return get("room_id");
 	}
 
+	public M setState(java.lang.Integer state) {
+		set("state", state);
+		return (M)this;
+	}
+
+	public java.lang.Integer getState() {
+		return get("state");
+	}
+
 }

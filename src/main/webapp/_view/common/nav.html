@@ -1,0 +1,39 @@
+<ul class="layui-nav" lay-filter="">
+    <li class="layui-nav-item"><a href="/">首页</a></li>
+    <li class="layui-nav-item">
+        <a href="javascript:;">预定服务</a>
+        <dl class="layui-nav-child">
+            <dd><a href="">包间预定</a></dd>
+            <dd><a href="">菜品预定</a></dd>
+        </dl>
+    </li>
+    <li class="layui-nav-item">
+        <a href="javascript:;">管理服务(admin)</a>
+        <dl class="layui-nav-child">
+            <dd><a href="">菜单管理</a></dd>
+            <dd><a href="">包间管理</a></dd>
+            <dd><a href="">大厅管理</a></dd>
+            <dd><a href="">订单管理</a></dd>
+        </dl>
+    </li>
+    <li class="layui-nav-item" style="float: right"><a href="">关于我们</a></li>
+    #if(user)
+    <li class="layui-nav-item" style="float: right">
+        <a href="javascript:">#(user.username)</a>
+        <dl class="layui-nav-child">
+            <dd><a href="">修改信息</a></dd>
+            <dd><a href="">登出</a></dd>
+        </dl>
+    </li>
+    #else
+    <li class="layui-nav-item" style="float: right">
+        <a href="javascript:">用户服务</a>
+        <dl class="layui-nav-child">
+            <dd><a href="">登录</a></dd>
+            <dd><a href="">注册</a></dd>
+        </dl>
+    </li>
+    #end
+    <!--todo 根据页面给导航栏添加 layui-this 的class-->
+    <!--todo 根据权限更改导航显示-->
+</ul>

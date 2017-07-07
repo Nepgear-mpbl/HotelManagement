@@ -3,6 +3,7 @@
  */
 package cn.zhengzhaoyu.summerSemester.common;
 
+import cn.zhengzhaoyu.summerSemester.index.IndexController_Javadog;
 import com.jfinal.config.Routes;
 
 /**
@@ -16,6 +17,7 @@ public class FrontRoute_Javadog extends Routes {
      */
     @Override
     public void config() {
-
+        setBaseViewPath("_view");
+        add("/", IndexController_Javadog.class, "/index");
     }
 }

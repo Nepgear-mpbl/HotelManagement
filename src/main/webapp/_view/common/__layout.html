@@ -1,0 +1,25 @@
+#define layout()
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <title>#(title)&nbsp;--&nbsp;HotelManage</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/assets/css/common.css">
+    #@css?()
+</head>
+<body>
+#include("nav.html")
+<div class="layui-main" style="padding-top: 50px">
+    #@body()
+</div>
+#include("footer.html")
+<script src="/layui/layui.js"></script>
+<script src="/assets/js/common.js"></script>
+#@js?()
+</body>
+</html>
+#end

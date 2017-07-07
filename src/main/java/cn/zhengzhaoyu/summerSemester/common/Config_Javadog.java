@@ -60,7 +60,7 @@ public class Config_Javadog extends JFinalConfig {
      */
     @Override
     public void configEngine(Engine me) {
-
+        me.addSharedFunction("/_view/common/__layout.html");
     }
 
     /**
