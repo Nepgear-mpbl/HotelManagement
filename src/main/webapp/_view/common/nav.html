@@ -16,13 +16,13 @@
             <dd><a href="">订单管理</a></dd>
         </dl>
     </li>
-    <li class="layui-nav-item" style="float: right"><a href="">关于我们</a></li>
     #if(user)
     <li class="layui-nav-item" style="float: right">
         <a href="javascript:">#(user.username)</a>
         <dl class="layui-nav-child">
             <dd><a href="">修改信息</a></dd>
             <dd><a href="">登出</a></dd>
+            <dd><a href="">关于我们</a></dd>
         </dl>
     </li>
     #else
@@ -31,6 +31,7 @@
         <dl class="layui-nav-child">
             <dd><a href="">登录</a></dd>
             <dd><a href="">注册</a></dd>
+            <dd><a href="">关于我们</a></dd>
         </dl>
     </li>
     #end

@@ -3,6 +3,7 @@
  */
 package cn.zhengzhaoyu.summerSemester.common;
 
+import cn.zhengzhaoyu.summerSemester.common.intrceptor.UserInterceptor_Javadog;
 import cn.zhengzhaoyu.summerSemester.common.model._MappingKit;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
@@ -80,7 +81,7 @@ public class Config_Javadog extends JFinalConfig {
      */
     @Override
     public void configInterceptor(Interceptors me) {
-
+        me.add(new UserInterceptor_Javadog());
     }
 
     /**
