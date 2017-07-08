@@ -17,10 +17,11 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0.0
  */
 public class LoginInterceptor_Javadog implements Interceptor{
-    @Override
-    /*
-      拦截所有发往login的post请求并重定向
+    /**
+     拦截所有发往login的post请求并重定向
+     * @param inv 当前执行的操作
      */
+    @Override
     public void intercept(Invocation inv) {
         Controller c = inv.getController();
         HttpServletRequest request = c.getRequest();

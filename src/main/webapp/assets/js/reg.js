@@ -3,33 +3,29 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
     var element = layui.element;
     var $ = layui.jquery;
     var layer = layui.layer;
-    form.on('submit(loginSubmit)', function (data) {
+    form.on('submit(regSubmit)', function (data) {
+        //console.log(data.field);
         var postData = data.field;
-        $.post('login', postData, function (logInData) {
-            if(logInData.status){
+        $.post('reg', postData, function (regData) {
+            if(regData.status){
                 layer.open({
                     title: '消息'
-                    , content: '登录成功!'
+                    , content: '注册成功!'
                     , yes: function () {
-                        location.href = '/';
+                        location.href = '/login';
                     }, cancel: function () {
-                        location.href = '/';
+                        location.href = '/login';
                     }
                 });
             }else{
                 layer.open({
                     title: '消息'
-                    , content: logInData.message
+                    , content: regData.message
                 });
-                updateCaptcha();
+                $("#password").val('');
+                $("#repeatPassword").val('');
             }
-            $("#input-password").val("");
         });
         return false;
     });
-
-    $('#captcha-img').click(function () {
-        $('#captcha-img').prop('src', 'login/captcha?v=' + Math.random());
-    });
-
 });

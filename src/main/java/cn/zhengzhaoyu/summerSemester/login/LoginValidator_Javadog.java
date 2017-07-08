@@ -15,6 +15,10 @@ import javax.xml.validation.Validator;
  * @since 1.0.0
  */
 public class LoginValidator_Javadog extends com.jfinal.validate.Validator {
+    /**
+     * 验证表单内容是否合法
+     * @param c 使用这个validator的controller
+     */
     @Override
     protected void validate(Controller c) {
         validateCaptcha("captcha", "message", "验证码错误！");
@@ -24,6 +28,10 @@ public class LoginValidator_Javadog extends com.jfinal.validate.Validator {
         validateRegex("password","^\\S{6,20}$","message","用户名或密码错误！");
     }
 
+    /**
+     * 出现错误时的处理
+     * @param c 使用这个validator的controller
+     */
     @Override
     protected void handleError(Controller c) {
         c.setAttr("status",false);

@@ -28,6 +28,7 @@ public class LoginController_Javadog extends BaseController_Javadog {
     /**
      * 渲染登录页面主页
      */
+    @Clear({UserInterceptor_Javadog.class})
     @Before({LoginInterceptor_Javadog.class,GET.class})
     public void index() {
         render("index.html");

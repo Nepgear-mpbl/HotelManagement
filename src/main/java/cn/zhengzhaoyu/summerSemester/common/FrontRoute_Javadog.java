@@ -5,6 +5,7 @@ package cn.zhengzhaoyu.summerSemester.common;
 
 import cn.zhengzhaoyu.summerSemester.index.IndexController_Javadog;
 import cn.zhengzhaoyu.summerSemester.login.LoginController_Javadog;
+import cn.zhengzhaoyu.summerSemester.reg.RegController_Javadog;
 import com.jfinal.config.Routes;
 
 /**
@@ -21,5 +22,6 @@ public class FrontRoute_Javadog extends Routes {
         setBaseViewPath("_view");
         add("/", IndexController_Javadog.class, "/index");
         add("login", LoginController_Javadog.class);
+        add("reg", RegController_Javadog.class);
     }
 }
