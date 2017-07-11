@@ -21,7 +21,7 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
                     title: '消息'
                     , content: logInData.message
                 });
-                updateCaptcha();
+                $('#captcha-img').prop('src', 'login/captcha?v=' + Math.random());
             }
             $("#input-password").val("");
         });

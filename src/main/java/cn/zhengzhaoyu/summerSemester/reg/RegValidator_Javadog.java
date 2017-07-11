@@ -4,8 +4,8 @@
 
 package cn.zhengzhaoyu.summerSemester.reg;
 
+import cn.zhengzhaoyu.summerSemester.common.validator.BaseValidator_Javadog;
 import com.jfinal.core.Controller;
-import com.jfinal.validate.Validator;
 
 /**
  * 注册页面的请求验证器
@@ -14,9 +14,10 @@ import com.jfinal.validate.Validator;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class RegValidator_Javadog extends Validator {
+public class RegValidator_Javadog extends BaseValidator_Javadog {
     /**
      * 验证表单内容是否合法
+     *
      * @param c 使用这个validator的controller
      */
     @Override
@@ -32,6 +33,7 @@ public class RegValidator_Javadog extends Validator {
 
     /**
      * 出现错误时的处理
+     *
      * @param c 使用这个validator的controller
      */
     @Override
