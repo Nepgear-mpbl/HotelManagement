@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+#set(title="包间管理")
+#@layout()
+
+#define body()
+<p style="font-size: 150% ;text-align: center">包间信息</p>
+#if(roomList)
+<div id="roomTable">
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col width="100">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>包间名</th>
+            <th>价格</th>
+            <th>类型</th>
+            <th>楼层</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(room:roomList)
+        <tr>
+            <td>#(room.roomname)</td>
+            <td>#(room.price)</td>
+            <td>#(room.type)</td>
+            <td>#(room.floor)</td>
+            <td><a class="edit" href="/room/edit/#(room.id)">修改</a>/<a href="/room/remove/#(room.id)" class="remove">删除</a></td>
+        </tr>
+        #end
+        </tbody>
+    </table>
+</div>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">没有包间</p>
+#end
+<div id="edit-room-div" hidden>
+    <p style="font-size: 120% ;text-align: center;" id="edit-room-lable">当前修改：</p>
+    <form class="layui-form" action="room/edit" id="edit-form" method="post">
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入修改后的包间名" required lay-verify="required" name="editRoomName"
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入修改后的价格" required lay-verify="required" name="editRoomPrice" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入修改后的类型" required lay-verify="required" name="editRoomType" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入修改后的楼层" required lay-verify="required" name="editRoomFloor" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <button type="submit" class="layui-btn" lay-submit id="button-edit-submit" style="width: 100%;" lay-filter="editSubmit">修改包间信息
+            </button>
+        </div>
+    </form>
+</div>
+<button id="add-button" class="layui-btn" style="width: 100%">添加包间</button>
+<div id="add-room-div" style="padding-top: 30px" hidden>
+    <form class="layui-form" action="room/add" id="add-form" method="post">
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入包间名" required lay-verify="required" name="addRoomName"
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入价格" required lay-verify="required" name="addRoomPrice" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入类型" required lay-verify="required" name="addRoomType" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入楼层" required lay-verify="required" name="addRoomFloor" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <button type="submit" class="layui-btn" lay-submit id="button-add-submit" style="width: 100%;" lay-filter="addSubmit">添加包间
+            </button>
+        </div>
+    </form>
+</div>
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/room.css">
+#end
+
+#define js()
+<script src="/assets/js/room.js"></script>
+#end
