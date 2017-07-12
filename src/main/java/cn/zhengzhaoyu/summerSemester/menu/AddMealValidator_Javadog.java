@@ -23,6 +23,8 @@ public class AddMealValidator_Javadog extends BaseValidator_Javadog {
         validateString("addMealName", 1, 10, "message", "菜名格式错误");
         validateDouble("addMealPrice",0.0,10000.0,"message","非法菜品价格");
         validateRegex("addMealName", "^\\S{1,10}$", "message", "菜名格式错误");
+        validateInteger("addMealRecommend",0,3,",message","推荐格式错误");
+        validateInteger("addMealType",0,4,",message","类型格式错误");
     }
 
     /**

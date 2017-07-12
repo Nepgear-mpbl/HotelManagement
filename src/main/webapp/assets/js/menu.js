@@ -85,6 +85,46 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
         $('#edit-menu-lable').text('当前修改菜名:'+$this.parent().parent().find('td:first').text());
     });
     $(document).ready(function(){
+        var mealTypeList=$('.meal-type');
+        var mealRecList=$('.meal-rec');
+        for(var i=0;i<mealTypeList.length;i++)
+            switch (mealTypeList[i].innerText){
+                case '0':
+                    mealTypeList[i].innerText='素菜';
+                    break;
+                case '1':
+                    mealTypeList[i].innerText='荤菜';
+                    break;
+                case '2':
+                    mealTypeList[i].innerText='凉菜';
+                    break;
+                case '3':
+                    mealTypeList[i].innerText='汤';
+                    break;
+                case '4':
+                    mealTypeList[i].innerText='主食';
+                    break;
+                default:
+                    mealTypeList[i].innerText='未知';
+            }
+        for(var i=0;i<mealRecList.length;i++)
+            switch (mealRecList[i].innerText){
+                case '0':
+                    mealRecList[i].innerText='热销';
+                    break;
+                case '1':
+                    mealRecList[i].innerText='火热';
+                    break;
+                case '2':
+                    mealRecList[i].innerText='非常火爆';
+                    break;
+                case '3':
+                    mealRecList[i].innerText='本店招牌';
+                    mealRecList[i].style.color='red';
+                    break;
+                default:
+                    mealRecList[i].innerText='未知';
+            }
         $('#add-button').click(function () {
             $('#add-menu-div').show();
             $('#add-button').hide();

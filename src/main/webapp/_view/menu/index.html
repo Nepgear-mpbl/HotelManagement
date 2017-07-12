@@ -12,7 +12,7 @@
             <col>
             <col>
             <col>
-            <col width="100">
+            <col width="95">
         </colgroup>
         <thead>
         <tr>
@@ -28,8 +28,8 @@
         <tr>
             <td>#(meal.mealname)</td>
             <td>#(meal.price)</td>
-            <td>#(meal.type)</td>
-            <td>#(meal.recommend)</td>
+            <td class="meal-type">#(meal.type)</td>
+            <td class="meal-rec">#(meal.recommend)</td>
             <td><a class="edit" href="/menu/edit/#(meal.id)">修改</a>/<a href="/menu/remove/#(meal.id)" class="remove">删除</a></td>
         </tr>
         #end
@@ -51,12 +51,29 @@
                    class="layui-input">
         </div>
         <div class="layui-form-item">
-            <input type="text" placeholder="请输入修改后的类型" required lay-verify="required" name="editMealType" ,
-                   class="layui-input">
+            <label class="layui-form-label">选择类型</label>
+            <div class="layui-input-block">
+                <select name="editMealType" required lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">素菜</option>
+                    <option value="1">荤菜</option>
+                    <option value="2">凉菜</option>
+                    <option value="3">汤</option>
+                    <option value="4">主食</option>
+                </select>
+            </div>
         </div>
         <div class="layui-form-item">
-            <input type="text" placeholder="请输入修改后的推荐指数" required lay-verify="required" name="editMealRecommend" ,
-                   class="layui-input">
+            <label class="layui-form-label">推荐指数</label>
+            <div class="layui-input-block">
+                <select name="editMealRecommend" required lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">热销</option>
+                    <option value="1">火热</option>
+                    <option value="2">非常火爆</option>
+                    <option value="3">本店招牌</option>
+                </select>
+            </div>
         </div>
         <div class="layui-form-item">
             <button type="submit" class="layui-btn" lay-submit id="button-edit-submit" style="width: 100%;" lay-filter="editSubmit">修改菜品信息
@@ -76,12 +93,28 @@
                    class="layui-input">
         </div>
         <div class="layui-form-item">
-            <input type="text" placeholder="请输入类型" required lay-verify="required" name="addMealType" ,
-                   class="layui-input">
+            <label class="layui-form-label">选择类型</label>
+            <div class="layui-input-block">
+                <select name="addMealType" required lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">素菜</option>
+                    <option value="1">荤菜</option>
+                    <option value="2">凉菜</option>
+                    <option value="3">汤</option>
+                </select>
+            </div>
         </div>
         <div class="layui-form-item">
-            <input type="text" placeholder="请输入推荐指数" required lay-verify="required" name="addMealRecommend" ,
-                   class="layui-input">
+            <label class="layui-form-label">推荐指数</label>
+            <div class="layui-input-block">
+                <select name="addMealRecommend" required lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">热销</option>
+                    <option value="1">火热</option>
+                    <option value="2">非常火爆</option>
+                    <option value="3">本店招牌</option>
+                </select>
+            </div>
         </div>
         <div class="layui-form-item">
             <button type="submit" class="layui-btn" lay-submit id="button-add-submit" style="width: 100%;" lay-filter="addSubmit">添加菜品

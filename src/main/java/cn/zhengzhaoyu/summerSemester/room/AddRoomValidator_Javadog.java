@@ -24,6 +24,7 @@ public class AddRoomValidator_Javadog extends BaseValidator_Javadog {
         validateDouble("addRoomPrice",0.0,10000.0,"message","非法包间价格");
         validateRegex("addRoomName", "^\\S{1,10}$", "message", "包间名格式错误");
         validateInteger("addRoomFloor",1,99,",message","楼层格式错误");
+        validateInteger("addRoomType",0,4,",message","类型格式错误");
     }
 
     /**

@@ -12,7 +12,7 @@
             <col>
             <col>
             <col>
-            <col width="100">
+            <col width="95">
         </colgroup>
         <thead>
         <tr>
@@ -28,9 +28,10 @@
         <tr>
             <td>#(room.roomname)</td>
             <td>#(room.price)</td>
-            <td>#(room.type)</td>
+            <td class="room-type">#(room.type)</td>
             <td>#(room.floor)</td>
-            <td><a class="edit" href="/room/edit/#(room.id)">修改</a>/<a href="/room/remove/#(room.id)" class="remove">删除</a></td>
+            <td><a class="edit" href="/room/edit/#(room.id)">修改</a>/<a href="/room/remove/#(room.id)"
+                                                                       class="remove">删除</a></td>
         </tr>
         #end
         </tbody>
@@ -51,15 +52,25 @@
                    class="layui-input">
         </div>
         <div class="layui-form-item">
-            <input type="text" placeholder="请输入修改后的类型" required lay-verify="required" name="editRoomType" ,
-                   class="layui-input">
+            <label class="layui-form-label">选择类型</label>
+            <div class="layui-input-block">
+                <select name="editRoomType" required lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">小包间</option>
+                    <option value="1">中包间</option>
+                    <option value="2">大包间</option>
+                    <option value="3">豪华包间</option>
+                    <option value="4">总统套间</option>
+                </select>
+            </div>
         </div>
         <div class="layui-form-item">
             <input type="text" placeholder="请输入修改后的楼层" required lay-verify="required" name="editRoomFloor" ,
                    class="layui-input">
         </div>
         <div class="layui-form-item">
-            <button type="submit" class="layui-btn" lay-submit id="button-edit-submit" style="width: 100%;" lay-filter="editSubmit">修改包间信息
+            <button type="submit" class="layui-btn" lay-submit id="button-edit-submit" style="width: 100%;"
+                    lay-filter="editSubmit">修改包间信息
             </button>
         </div>
     </form>
@@ -76,15 +87,25 @@
                    class="layui-input">
         </div>
         <div class="layui-form-item">
-            <input type="text" placeholder="请输入类型" required lay-verify="required" name="addRoomType" ,
-                   class="layui-input">
+            <label class="layui-form-label">选择类型</label>
+            <div class="layui-input-block">
+                <select name="addRoomType" required lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">小包间</option>
+                    <option value="1">中包间</option>
+                    <option value="2">大包间</option>
+                    <option value="3">豪华包间</option>
+                    <option value="4">总统套间</option>
+                </select>
+            </div>
         </div>
         <div class="layui-form-item">
             <input type="text" placeholder="请输入楼层" required lay-verify="required" name="addRoomFloor" ,
                    class="layui-input">
         </div>
         <div class="layui-form-item">
-            <button type="submit" class="layui-btn" lay-submit id="button-add-submit" style="width: 100%;" lay-filter="addSubmit">添加包间
+            <button type="submit" class="layui-btn" lay-submit id="button-add-submit" style="width: 100%;"
+                    lay-filter="addSubmit">添加包间
             </button>
         </div>
     </form>
