@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+#set(title="菜单管理")
+#@layout()
+
+#define body()
+<p style="font-size: 150% ;text-align: center">当前菜单</p>
+#if(menu)
+<div id="menuTable">
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col width="100">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>菜名</th>
+            <th>价格</th>
+            <th>类型</th>
+            <th>推荐指数</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(meal:menu)
+        <tr>
+            <td>#(meal.mealname)</td>
+            <td>#(meal.price)</td>
+            <td>#(meal.type)</td>
+            <td>#(meal.recommend)</td>
+            <td><a class="edit" href="/menu/edit/#(meal.id)">修改</a>/<a href="/menu/remove/#(meal.id)" class="remove">删除</a></td>
+        </tr>
+        #end
+        </tbody>
+    </table>
+</div>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">当前菜单为空</p>
+#end
+<div id="edit-menu-div" hidden>
+    <p style="font-size: 120% ;text-align: center;" id="edit-menu-lable">当前修改：</p>
+    <form class="layui-form" action="menu/edit" id="edit-form" method="post">
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入修改后的菜名" required lay-verify="required" name="editMealName"
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入修改后的价格" required lay-verify="required" name="editMealPrice" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入修改后的类型" required lay-verify="required" name="editMealType" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入修改后的推荐指数" required lay-verify="required" name="editMealRecommend" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <button type="submit" class="layui-btn" lay-submit id="button-edit-submit" style="width: 100%;" lay-filter="editSubmit">修改菜品信息
+            </button>
+        </div>
+    </form>
+</div>
+<button id="add-button" class="layui-btn" style="width: 100%">添加菜品</button>
+<div id="add-menu-div" style="padding-top: 30px" hidden>
+    <form class="layui-form" action="menu/add" id="add-form" method="post">
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入菜名" required lay-verify="required" name="addMealName"
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入价格" required lay-verify="required" name="addMealPrice" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入类型" required lay-verify="required" name="addMealType" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入推荐指数" required lay-verify="required" name="addMealRecommend" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <button type="submit" class="layui-btn" lay-submit id="button-add-submit" style="width: 100%;" lay-filter="addSubmit">添加菜品
+            </button>
+        </div>
+    </form>
+</div>
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/menu.css">
+#end
+
+#define js()
+<script src="/assets/js/menu.js"></script>
+#end

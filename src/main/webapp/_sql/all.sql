@@ -5,3 +5,7 @@
 #namespace("room")
 #include("room.sql")
 #end
+
+#namespace("meal")
+#include("meal.sql")
+#end

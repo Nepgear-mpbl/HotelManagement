@@ -9,7 +9,9 @@ import com.jfinal.core.Controller;
 
 /**
  * 添加包间的输入验证器
- * Created by Nepge on 2017/7/11.
+ * @author ZZY
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public class SearchRoomValidator_Javadog extends BaseValidator_Javadog {
     /**

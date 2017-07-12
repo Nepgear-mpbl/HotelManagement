@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * 对包间的管理方法
- *
  * @author ZZY
  * @version 1.0.0
  * @since 1.0.0

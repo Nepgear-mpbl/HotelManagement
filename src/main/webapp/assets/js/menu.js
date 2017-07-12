@@ -3,16 +3,16 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
     var element = layui.element;
     var $ = layui.jquery;
     var layer = layui.layer;
-    var editRoomUrl=null;
+    var editMealUrl=null;
 
     form.on('submit(addSubmit)', function (data) {
         console.log(data.field);
         var postData = data.field;
-        $.post('room/add', postData, function (addRoomData) {
-            if(addRoomData.status){
+        $.post('menu/add', postData, function (addMealData) {
+            if(addMealData.status){
                 layer.open({
                     title: '消息'
-                    , content: '添加包间成功!'
+                    , content: '添加菜品成功!'
                     ,yes:function () {
                         location.reload();
                     }
@@ -23,7 +23,7 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
             }else{
                 layer.open({
                     title: '消息'
-                    , content: addRoomData.message
+                    , content: addMealData.message
                 });
             }
         });
@@ -32,11 +32,11 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
     form.on('submit(editSubmit)', function (data) {
         console.log(data.field);
         var postData = data.field;
-        $.post(editRoomUrl, postData, function (editRoomData) {
-            if(editRoomData.status){
+        $.post(editMealUrl, postData, function (editMealData) {
+            if(editMealData.status){
                 layer.open({
                     title: '消息'
-                    , content: '修改包间信息成功!'
+                    , content: '修改菜品信息成功!'
                     ,yes:function () {
                         location.reload();
                     }
@@ -47,7 +47,7 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
             }else{
                 layer.open({
                     title: '消息'
-                    , content: editRoomData.message
+                    , content: editMealData.message
                 });
             }
         });
@@ -80,14 +80,15 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
     $('.edit').click(function (e) {
         e.preventDefault();
         var $this = $(this);
-        editRoomUrl = $this.prop('href');
-        $('#edit-room-div').show();
-        $('#edit-room-lable').text('当前修改包间名:'+$this.parent().parent().find('td:first').text());
+        editMealUrl = $this.prop('href');
+        $('#edit-menu-div').show();
+        $('#edit-menu-lable').text('当前修改菜名:'+$this.parent().parent().find('td:first').text());
     });
     $(document).ready(function(){
         $('#add-button').click(function () {
-            $('#add-room-div').show();
+            $('#add-menu-div').show();
             $('#add-button').hide();
         });
     });
 });
+
