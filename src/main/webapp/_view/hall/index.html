@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+#set(title="大厅管理")
+#@layout()
+
+#define body()
+<p style="font-size: 150% ;text-align: center">大厅信息</p>
+#if(usedList)
+<div id="TableUsed" style="float: left;width:50%;">
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col width="60">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>桌子号</th>
+            <th>大小</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(table:usedList)
+        <tr>
+            <td>#(table.tableNum)</td>
+            <td>#(table.seat)</td>
+            <td><a href="/hall/remove/#(table.id)" class="remove">删除</a></td>
+        </tr>
+        #end
+        </tbody>
+    </table>
+</div>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 20px;padding-bottom: 20px;float: left;width:50%;">没有在使用的桌子</p>
+#end
+
+#if(unusedList)
+<div id="TableUnUsed" style="float: right;width:50%;">
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col width="60">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>桌子号</th>
+            <th>大小</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(table:unusedList)
+        <tr>
+            <td>#(table.tableNum)</td>
+            <td>#(table.seat)</td>
+            <td><a href="/hall/remove/#(table.id)" class="remove">删除</a></td>
+        </tr>
+        #end
+        </tbody>
+    </table>
+</div>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 20px;padding-bottom: 20px;float: left;width:50%;">没有未在使用的桌子</p>
+#end
+<button id="add-Table-button" class="layui-btn" style="width: 100%">添加桌子</button>
+<div id="add-Table-div" style="padding-top: 30px" hidden>
+    <form class="layui-form" action="hall/add" id="addTable-form" method="post">
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入桌子号" required lay-verify="required" name="addTableNum"
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="text" placeholder="请输入桌子大小" required lay-verify="required" name="addTableSize" ,
+                   class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <button type="submit" class="layui-btn" lay-submit id="button-addTable-submit" style="width: 100%;"
+                    lay-filter="addSubmit">添加桌子
+            </button>
+        </div>
+    </form>
+</div>
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/hall.css">
+#end
+
+#define js()
+<script src="/assets/js/hall.js"></script>
+#end

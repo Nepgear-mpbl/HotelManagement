@@ -3,6 +3,7 @@
  */
 package cn.zhengzhaoyu.summerSemester.common;
 
+import cn.zhengzhaoyu.summerSemester.hall.HallController_Javadog;
 import cn.zhengzhaoyu.summerSemester.index.IndexController_Javadog;
 import cn.zhengzhaoyu.summerSemester.login.LoginController_Javadog;
 import cn.zhengzhaoyu.summerSemester.menu.MenuController_Javadog;
@@ -27,5 +28,6 @@ public class FrontRoute_Javadog extends Routes {
         add("reg", RegController_Javadog.class);
         add("room", RoomController_Javadog.class);
         add("menu", MenuController_Javadog.class);
+        add("hall", HallController_Javadog.class);
     }
 }

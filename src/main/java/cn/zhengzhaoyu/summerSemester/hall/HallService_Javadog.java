@@ -23,8 +23,8 @@ public class HallService_Javadog {
      * 向数据库添加一张桌子
      * @return 返回是否成功
      */
-    public Ret addTable() {
-        if (new Table().save()) {
+    public Ret addTable(Integer tableNum) {
+        if (new Table().setTableNum(tableNum).save()) {
             return Ret.by("status", true);
         } else {
             return Ret.by("status", false);

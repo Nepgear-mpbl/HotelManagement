@@ -36,4 +36,13 @@ public abstract class BaseTable<M extends BaseTable<M>> extends Model<M> impleme
 		return get("belong");
 	}
 
+	public M setTableNum(java.lang.Integer tableNum) {
+		set("tableNum", tableNum);
+		return (M)this;
+	}
+
+	public java.lang.Integer getTableNum() {
+		return get("tableNum");
+	}
+
 }
