@@ -9,6 +9,6 @@ JavaDog
 ## 技术栈
 layui 前端框架
 
-jQuery js框架
+jQuery js 框架
 
-jFinal后端框架
+jFinal 后端框架
