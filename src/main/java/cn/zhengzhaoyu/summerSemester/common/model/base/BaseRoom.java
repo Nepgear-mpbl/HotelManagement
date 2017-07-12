@@ -54,4 +54,13 @@ public abstract class BaseRoom<M extends BaseRoom<M>> extends Model<M> implement
 		return get("price");
 	}
 
+	public M setBelong(java.lang.Integer belong) {
+		set("belong", belong);
+		return (M)this;
+	}
+
+	public java.lang.Integer getBelong() {
+		return get("belong");
+	}
+
 }

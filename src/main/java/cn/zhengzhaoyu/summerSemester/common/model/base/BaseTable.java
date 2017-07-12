@@ -27,4 +27,13 @@ public abstract class BaseTable<M extends BaseTable<M>> extends Model<M> impleme
 		return get("seat");
 	}
 
+	public M setBelong(java.lang.Integer belong) {
+		set("belong", belong);
+		return (M)this;
+	}
+
+	public java.lang.Integer getBelong() {
+		return get("belong");
+	}
+
 }

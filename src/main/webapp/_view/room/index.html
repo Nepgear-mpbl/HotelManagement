@@ -12,6 +12,7 @@
             <col>
             <col>
             <col>
+            <col>
             <col width="95">
         </colgroup>
         <thead>
@@ -20,6 +21,7 @@
             <th>价格</th>
             <th>类型</th>
             <th>楼层</th>
+            <th>状态</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -30,6 +32,11 @@
             <td>#(room.price)</td>
             <td class="room-type">#(room.type)</td>
             <td>#(room.floor)</td>
+            #if(room.belong!=null)
+            <td style="color: red">订单#(room.belong)号使用中</td>
+            #else
+            <td>空闲</td>
+            #end
             <td><a class="edit" href="/room/edit/#(room.id)">修改</a>/<a href="/room/remove/#(room.id)"
                                                                        class="remove">删除</a></td>
         </tr>

@@ -46,6 +46,9 @@ public class RoomService_Javadog {
         if (null == room) {
             return Ret.by("status", false);
         }
+        if(null!=room.getBelong()){
+            return Ret.by("status", false).set("message","该包间正在使用中");
+        }
         if (room.delete()) {
             return Ret.by("status", true);
         } else {
