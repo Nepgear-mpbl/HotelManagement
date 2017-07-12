@@ -9,3 +9,7 @@
 #namespace("meal")
 #include("meal.sql")
 #end
+
+#namespace("table")
+#include("table.sql")
+#end
