@@ -45,20 +45,22 @@ public class OrderController_Javadog extends BaseController_Javadog {
         Integer orderId = getParaToInt();
         List<Meal> menu = ms.getAllMeals();
         setAttr("menu", menu);
-        setAttr("orderId",orderId);
+        setAttr("orderId", orderId);
         render("orderMeal_2.html");
     }
+
     @Before({POST.class})
     public void addMeal() {
-        Integer tableId=getParaToInt();
-        Ret ret = os.addMealOrder(0,tableId);
+        Integer tableId = getParaToInt();
+        Ret ret = os.addMealOrder(0, tableId);
         renderJson(ret);
     }
 
     @Before({POST.class})
     public void setMealText() {
-        Integer orderId=getParaToInt();
-        Ret ret = os.setMealOrderText("",orderId);
+        Integer orderId = getParaToInt("orderId");
+        String textJson = getPara("menuData");
+        Ret ret = os.setMealOrderText(textJson, orderId);
         renderJson(ret);
     }
 }

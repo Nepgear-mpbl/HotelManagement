@@ -8,8 +8,13 @@ package cn.zhengzhaoyu.summerSemester.order;
 import cn.zhengzhaoyu.summerSemester.common.model.MealOrder;
 import cn.zhengzhaoyu.summerSemester.common.model.RoomOrder;
 import cn.zhengzhaoyu.summerSemester.common.model.Table;
+import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 订单服务的方法类
@@ -93,5 +98,22 @@ public class OrderService_Javadog {
         } else {
             return Ret.by("status", false);
         }
+    }
+
+    public ArrayList[] loadFromJson(String textJson) {
+        ArrayList jsonList = JsonKit.parse(textJson, ArrayList.class);
+        List<HashMap> mapList = new ArrayList<HashMap>();
+        for (Object str:jsonList
+             ) {
+           mapList.add(JsonKit.parse(str.toString(), HashMap.class));
+        }
+        ArrayList<Integer> mealIdList=new ArrayList<>();
+        ArrayList<Integer> mealNumList=new ArrayList<>();
+        for (HashMap map:mapList
+             ) {
+            mealIdList.add((Integer) map.get("id"));
+            mealNumList.add((Integer) map.get("num"));
+        }
+        return (new ArrayList[]{mealIdList,mealNumList});
     }
 }
