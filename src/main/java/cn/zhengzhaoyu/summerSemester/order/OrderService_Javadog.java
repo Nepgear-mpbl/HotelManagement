@@ -5,6 +5,7 @@
 package cn.zhengzhaoyu.summerSemester.order;
 
 
+import cn.zhengzhaoyu.summerSemester.common.model.Meal;
 import cn.zhengzhaoyu.summerSemester.common.model.MealOrder;
 import cn.zhengzhaoyu.summerSemester.common.model.RoomOrder;
 import com.jfinal.kit.Ret;
@@ -28,8 +29,9 @@ public class OrderService_Javadog {
      * @return 是否成功
      */
     public Ret addMealOrder(Integer type, Integer place) {
-        if (new MealOrder().setType(type).setPlace(place).setState(0).save()){
-            return Ret.by("status", true);
+        MealOrder mealOrder=new MealOrder();
+        if (mealOrder.setType(type).setPlace(place).setState(0).save()){
+            return Ret.by("status", true).set("orderId",mealOrder.getId());
         } else{
             return Ret.by("status", false);
         }
