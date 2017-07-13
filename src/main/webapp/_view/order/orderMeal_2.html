@@ -6,8 +6,8 @@
 <p style="font-size: 150% ;text-align: center">菜单信息</p>
 #if(menu)
 <div id="menuTable">
-    <p  id="order-id">#(orderId)</p>
-    <p  id="menu-size">#(menu.size())</p>
+    <p  id="order-id"hidden>#(orderId)</p>
+    <p  id="menu-size"hidden>#(menu.size())</p>
     <table class="layui-table">
         <colgroup>
             <col>
@@ -22,12 +22,12 @@
             <th>价格</th>
             <th>类型</th>
             <th>推荐指数</th>
-            <th>操作</th>
+            <th>份数</th>
         </tr>
         </thead>
         <tbody class="menu-item">
         #for(meal:menu)
-        <p  id="id-#(for.index)">#(meal.id)</p>
+        <p  id="id-#(for.index)"hidden>#(meal.id)</p>
         <tr>
             <td>#(meal.mealname)</td>
             <td>#(meal.price)</td>

@@ -59,7 +59,7 @@ public class OrderController_Javadog extends BaseController_Javadog {
     @Before({POST.class})
     public void setMealText() {
         Integer orderId = getParaToInt("orderId");
-        String textJson = getPara("menuData");
+        String textJson = getPara("data");
         Ret ret = os.setMealOrderText(textJson, orderId);
         renderJson(ret);
     }

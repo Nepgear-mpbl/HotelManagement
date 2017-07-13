@@ -16,35 +16,38 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
                 menuData.push({'id': id, 'num': num});
             }
         }
-        console.log(menuData);
-        var postData={
-            'data':menuData,
-            'orderId':$('#order-id').text()
-        };
-        console.log(postData);
+        if(menuData.length>0) {
+            var postData = {
+                'data': JSON.stringify(menuData),
+                'orderId': $('#order-id').text()
+            };
+            console.log(postData);
 
-
-
-
-        $.post('order/setMealText', postData, function (addMealData) {
-            if(addMealData.status){
-                layer.open({
-                    title: '消息'
-                    , content: '提交成功!'
-                    ,yes:function () {
-                        location.reload();
-                    }
-                    ,cancel:function () {
-                        location.reload();
-                    }
-                });
-            }else{
-                layer.open({
-                    title: '消息'
-                    , content: addMealData.message
-                });
-            }
+            $.post('/order/setMealText', postData, function (addMealData) {
+                if (addMealData.status) {
+                    layer.open({
+                        title: '消息'
+                        , content: '提交成功!'
+                        , yes: function () {
+                            //location.reload();
+                        }
+                        , cancel: function () {
+                            //location.reload();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: '消息'
+                        , content: addMealData.message
+                    });
+                }
+            });
+        }else{layer.open({
+            title: '消息'
+            , content: '请选择菜品'
         });
+
+        }
         return false;
     });
 });
