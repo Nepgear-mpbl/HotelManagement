@@ -1,30 +1,29 @@
-layui.use(['element', 'form', 'jquery', 'layer'], function () {
-    var form = layui.form();
+layui.use(['element', 'jquery', 'layer'], function () {
     var element = layui.element;
     var $ = layui.jquery;
     var layer = layui.layer;
-    var editHallUrl=null;
-    $('.addmeal').click(function (e) {
+    $('.addMeal').click(function (e) {
         e.preventDefault();
         var $this = $(this);
         var url = $this.prop('href');
-        $.post(url, {}, function (addmealJson) {
-            if (addmealJson.status) {
+        $.post(url, {}, function (addmMealJson) {
+            if (addmMealJson.status) {
+                var url='/order/mealNextStep/'+addmMealJson.orderId.toString();
+                console.log(url);
                 layer.open({
                     title: '消息'
                     , content: '预订成功!'
                     ,yes:function () {
-                        location.reload();
+                        location.pathname=url;
                     }
                     ,cancel:function () {
-                        location.reload();
+                        location.pathname=url;
                     }
                 });
-                location.herf='/order/mealNextStep/'+addmealJson.orderId.toString();
             } else {
                 layer.open({
                     title: '消息'
-                    , content: addmealJson.message
+                    , content: addmMealJson.message
                 });
             }
         });

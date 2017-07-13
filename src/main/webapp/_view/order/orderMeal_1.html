@@ -3,7 +3,7 @@
 #@layout()
 
 #define body()
-<p style="font-size: 150% ;text-align: center">大厅信息</p>
+<p style="font-size: 150% ;text-align: center">选择预定的桌子</p>
 #if(unusedList)
 <div id="TableUnUsed">
     <table class="layui-table">
@@ -24,7 +24,7 @@
         <tr>
             <td>#(table.tableNum)</td>
             <td>#(table.seat)</td>
-            <td><a href="/order/addmeal/#(table.id)" class="addmeal">预订</a></td>
+            <td><a href="/order/addMeal/#(table.id)" class="addMeal">预订</a></td>
         </tr>
         #end
         </tbody>
