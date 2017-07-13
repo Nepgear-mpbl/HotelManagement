@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+#set(title="大厅预订")
+#@layout()
+
+#define body()
+<p style="font-size: 150% ;text-align: center">大厅信息</p>
+#if(unusedList)
+<div id="TableUnUsed">
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col width="95">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>桌子号</th>
+            <th>大小</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(table:unusedList)
+        <tr>
+            <td>#(table.tableNum)</td>
+            <td>#(table.seat)</td>
+            <td><a href="/order/addmeal/#(table.id)" class="addmeal">预订</a></td>
+        </tr>
+        #end
+        </tbody>
+    </table>
+</div>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 20px;padding-bottom: 20px;float: left;width:50%;">没有空的桌子了</p>
+#end
+#end
+#define css()
+<link rel="stylesheet" href="/assets/css/orderMeal_1.css">
+#end
+
+#define js()
+<script src="/assets/js/orderMeal_1.js"></script>
+#end
