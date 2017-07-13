@@ -39,7 +39,8 @@ public class HallController_Javadog extends BaseController_Javadog {
     @Before({POST.class})
     public void add() {
         Integer tableNum=getParaToInt("addTableNum");
-        Ret ret = hs.addTable(tableNum);
+        Integer tableSize=getParaToInt("addTableSize");
+        Ret ret = hs.addTable(tableNum,tableSize);
         renderJson(ret);
     }
 

@@ -20,11 +20,13 @@ public class HallService_Javadog {
     private static final Table tableDao = new Table().dao();
 
     /**
-     * 向数据库添加一张桌子
+     * 添加桌子
+     * @param tableNum 添加的桌子编号
+     * @param tableSize 添加的桌子座位数
      * @return 返回是否成功
      */
-    public Ret addTable(Integer tableNum) {
-        if (new Table().setTableNum(tableNum).save()) {
+    public Ret addTable(Integer tableNum,Integer tableSize) {
+        if (new Table().setTableNum(tableNum).setSeat(tableSize).save()) {
             return Ret.by("status", true);
         } else {
             return Ret.by("status", false);

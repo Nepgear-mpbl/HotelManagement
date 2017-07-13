@@ -13,3 +13,11 @@
 #namespace("table")
 #include("table.sql")
 #end
+
+#namespace("mealOrder")
+#include("mealOrder.sql")
+#end
+
+#namespace("roomOrder")
+#include("roomOrder.sql")
+#end
