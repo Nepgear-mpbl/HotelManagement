@@ -9,3 +9,7 @@ SELECT * FROM j_room WHERE `roomname` = #para(0)
 #sql("getAll")
 SELECT * FROM j_room
 #end
+
+#sql("getUnused")
+SELECT * FROM j_room WHERE `belong` is null
+#end

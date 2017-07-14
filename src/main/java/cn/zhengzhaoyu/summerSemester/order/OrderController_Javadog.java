@@ -6,9 +6,11 @@ package cn.zhengzhaoyu.summerSemester.order;
 
 import cn.zhengzhaoyu.summerSemester.common.controller.BaseController_Javadog;
 import cn.zhengzhaoyu.summerSemester.common.model.Meal;
+import cn.zhengzhaoyu.summerSemester.common.model.Room;
 import cn.zhengzhaoyu.summerSemester.common.model.Table;
 import cn.zhengzhaoyu.summerSemester.hall.HallService_Javadog;
 import cn.zhengzhaoyu.summerSemester.menu.MenuService_Javadog;
+import cn.zhengzhaoyu.summerSemester.room.RoomService_Javadog;
 import com.jfinal.aop.Before;
 import com.jfinal.ext.interceptor.GET;
 import com.jfinal.ext.interceptor.POST;
@@ -27,6 +29,7 @@ public class OrderController_Javadog extends BaseController_Javadog {
     private static final OrderService_Javadog os = new OrderService_Javadog();
     private static final HallService_Javadog hs = new HallService_Javadog();
     private static final MenuService_Javadog ms = new MenuService_Javadog();
+    private static final RoomService_Javadog rs = new RoomService_Javadog();
 
     @Before({GET.class})
     public void index() {
@@ -49,6 +52,27 @@ public class OrderController_Javadog extends BaseController_Javadog {
         render("orderMeal_2.html");
     }
 
+    @Before({GET.class})
+    public void room() {
+        render("orderRoom_1.html");
+    }
+
+    @Before({GET.class})
+    public void roomNextStep() {
+        List<Room> unusedList = rs.getUnusedRooms();
+        setAttr("unusedList", unusedList);
+        render("orderRoom_2.html");
+    }
+
+    @Before({GET.class})
+    public void roomFinalStep() {
+        Integer roomOrderId = getParaToInt();
+        List<Meal> menu = ms.getAllMeals();
+        setAttr("menu", menu);
+        setAttr("roomOrderId", roomOrderId);
+        render("orderRoom_3.html");
+    }
+
     @Before({POST.class})
     public void addMeal() {
         Integer tableId = getParaToInt();
@@ -62,5 +86,18 @@ public class OrderController_Javadog extends BaseController_Javadog {
         String textJson = getPara("data");
         Ret ret = os.setMealOrderText(textJson, orderId);
         renderJson(ret);
+    }
+
+    @Before({POST.class})
+    public void addRoom() {
+        String orderName=getPara("orderName");
+        Integer orderNum = getParaToInt("orderNum");
+        String orderTel=getPara("orderTel");
+        Ret ret = os.addRoomOrder(orderName,orderNum,orderTel);
+        renderJson(ret);
+    }
+
+    @Before({POST.class})
+    public void setRoomRoom() {
     }
 }

@@ -6,6 +6,7 @@ package cn.zhengzhaoyu.summerSemester.order;
 
 
 import cn.zhengzhaoyu.summerSemester.common.model.MealOrder;
+import cn.zhengzhaoyu.summerSemester.common.model.Room;
 import cn.zhengzhaoyu.summerSemester.common.model.RoomOrder;
 import cn.zhengzhaoyu.summerSemester.common.model.Table;
 import com.jfinal.kit.JsonKit;
@@ -28,6 +29,7 @@ public class OrderService_Javadog {
     private static final MealOrder mealOrderDao = new MealOrder().dao();
     private static final RoomOrder roomOrderDao = new RoomOrder().dao();
     private static final Table tableDao = new Table().dao();
+    private static final Room roomDao = new Room().dao();
 
     /**
      * 添加一个新的菜品订单
@@ -75,25 +77,42 @@ public class OrderService_Javadog {
      * @return 是否成功
      */
     public Ret addRoomOrder(String orderName, Integer orderNum, String tel) {
-        if (new RoomOrder().setOrdername(orderName).setOrdernum(orderNum).setTel(tel).setState(0).save()) {
+        RoomOrder roomOrder = new RoomOrder();
+        if (roomOrder.setOrdername(orderName).setOrdernum(orderNum).setTel(tel).setState(0).save()) {
+            return Ret.by("status", true).set("roomOrderId", roomOrder.getId());
+        } else {
+            return Ret.by("status", false);
+        }
+    }
+
+    public Ret setRoomOrderRoom(Integer roomId, Integer roomOrderId) {
+        Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", roomId));
+        if (null == room) {
+            return Ret.by("status", false);
+        }
+        RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
+        if (null == roomOrder) {
+            return Ret.by("status", false);
+        }
+        boolean b = Db.tx(4, () -> roomOrder.setRoomId(roomId).setState(0).update() && room.setBelong(roomOrder.getId()).update());
+        if (b) {
             return Ret.by("status", true);
         } else {
             return Ret.by("status", false);
         }
     }
 
-    public Ret SetRoomOrderRoom(Integer roomId, Integer roomOrderId) {
+    public Ret setRoomOrderMealOrder(Integer mealOrderId, Integer roomOrderId) {
         RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
-        if (roomOrder.setRoomId(roomId).update()) {
-            return Ret.by("status", true);
-        } else {
+        if (null == roomOrder) {
             return Ret.by("status", false);
         }
-    }
-
-    public Ret SetRoomOrderMealOrder(Integer mealOrderId, Integer roomOrderId) {
-        RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
-        if (roomOrder.setMealOrderId(mealOrderId).setState(1).update()) {
+        MealOrder mealOrder = mealOrderDao.findFirst(mealOrderDao.getSqlPara("mealOrder.findById", roomOrderId));
+        if (null == mealOrder) {
+            return Ret.by("status", false);
+        }
+        boolean b = Db.tx(4, () -> roomOrder.setMealOrderId(mealOrderId).setState(1).update() && mealOrder.setPlace(roomOrder.getRoomId()).update());
+        if (b) {
             return Ret.by("status", true);
         } else {
             return Ret.by("status", false);
@@ -103,17 +122,17 @@ public class OrderService_Javadog {
     public ArrayList[] loadFromJson(String textJson) {
         ArrayList jsonList = JsonKit.parse(textJson, ArrayList.class);
         List<HashMap> mapList = new ArrayList<HashMap>();
-        for (Object str:jsonList
-             ) {
-           mapList.add(JsonKit.parse(str.toString(), HashMap.class));
+        for (Object str : jsonList
+                ) {
+            mapList.add(JsonKit.parse(str.toString(), HashMap.class));
         }
-        ArrayList<Integer> mealIdList=new ArrayList<>();
-        ArrayList<Integer> mealNumList=new ArrayList<>();
-        for (HashMap map:mapList
-             ) {
+        ArrayList<Integer> mealIdList = new ArrayList<>();
+        ArrayList<Integer> mealNumList = new ArrayList<>();
+        for (HashMap map : mapList
+                ) {
             mealIdList.add((Integer) map.get("id"));
             mealNumList.add((Integer) map.get("num"));
         }
-        return (new ArrayList[]{mealIdList,mealNumList});
+        return (new ArrayList[]{mealIdList, mealNumList});
     }
 }
