@@ -135,4 +135,9 @@ public class OrderService_Javadog {
         }
         return (new ArrayList[]{mealIdList, mealNumList});
     }
+
+    public int getRoomOrderSize(int roomOrderId){
+        RoomOrder roomOrder=roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
+        return roomOrder.getOrdernum();
+    }
 }

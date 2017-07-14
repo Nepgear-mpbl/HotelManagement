@@ -59,7 +59,8 @@ public class OrderController_Javadog extends BaseController_Javadog {
 
     @Before({GET.class})
     public void roomNextStep() {
-        List<Room> unusedList = rs.getUnusedRooms();
+        Integer roomOrderId=getParaToInt();
+        List<Room> unusedList = rs.getUnusedRooms(os.getRoomOrderSize(roomOrderId));
         setAttr("unusedList", unusedList);
         render("orderRoom_2.html");
     }
@@ -99,5 +100,26 @@ public class OrderController_Javadog extends BaseController_Javadog {
 
     @Before({POST.class})
     public void setRoomRoom() {
+        Integer roomId = getParaToInt(0);
+        Ret ret1 = os.addMealOrder(0, roomId);
+        if(!((boolean) ret1.get("status"))){
+            renderJson(ret1);
+        }
+        Integer roomOrderId=getParaToInt(1);
+        Ret ret2=os.setRoomOrderRoom(roomId,roomOrderId);
+        renderJson(ret2);
+    }
+
+    @Before({POST.class})
+    public void setRoomMeal() {
+        Integer mealOrderId = getParaToInt("mealOrderId");
+        String textJson = getPara("data");
+        Ret ret1 = os.setMealOrderText(textJson, mealOrderId);
+        if(!((boolean) ret1.get("status"))){
+            renderJson(ret1);
+        }
+        Integer roomOrderId = getParaToInt("roomOrderId");
+        Ret ret2=os.setRoomOrderMealOrder(mealOrderId,roomOrderId);
+        renderJson(ret2);
     }
 }

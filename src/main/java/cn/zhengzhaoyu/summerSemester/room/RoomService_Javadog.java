@@ -101,13 +101,8 @@ public class RoomService_Javadog {
         }
         return roomList;
     }
-
-    /**
-     * 获取所有未使用包间
-     * @return 未使用包间list
-     */
-    public List<Room> getUnusedRooms() {
-        List<Room> roomList = roomDao.find(roomDao.getSqlPara("room.getUnused"));
+    public List<Room> getUnusedRooms(int minSize) {
+        List<Room> roomList = roomDao.find(roomDao.getSqlPara("room.getUnusedWithMinSize"));
         if (0 == roomList.size()) {
             return null;
         }
