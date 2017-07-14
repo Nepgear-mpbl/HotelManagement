@@ -123,7 +123,7 @@ public class OrderService_Javadog {
         if (null == roomOrder) {
             return Ret.by("status", false);
         }
-        MealOrder mealOrder = mealOrderDao.findFirst(mealOrderDao.getSqlPara("mealOrder.findById", roomOrderId));
+        MealOrder mealOrder = mealOrderDao.findFirst(mealOrderDao.getSqlPara("mealOrder.findById", mealOrderId));
         if (null == mealOrder) {
             return Ret.by("status", false);
         }

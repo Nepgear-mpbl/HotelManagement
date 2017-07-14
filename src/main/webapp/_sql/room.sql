@@ -11,5 +11,5 @@ SELECT * FROM j_room
 #end
 
 #sql("getUnusedWithMinSize")
-SELECT * FROM j_room WHERE `belong` is null and `type` > #para(0)
+SELECT * FROM j_room WHERE `belong` is null and `type` >= #para(0)
 #end

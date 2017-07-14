@@ -28,4 +28,27 @@ layui.use(['element', 'jquery', 'layer'], function () {
             }
         });
     });
+    $(document).ready(function(){
+        var roomTypeList=$('.room-type');
+        for(var i=0;i<roomTypeList.length;i++)
+            switch (roomTypeList[i].innerText){
+                case '0':
+                    roomTypeList[i].innerText='小包间';
+                    break;
+                case '1':
+                    roomTypeList[i].innerText='中包间';
+                    break;
+                case '2':
+                    roomTypeList[i].innerText='大包间';
+                    break;
+                case '3':
+                    roomTypeList[i].innerText='豪华包间';
+                    break;
+                case '4':
+                    roomTypeList[i].innerText='总统套间';
+                    break;
+                default:
+                    roomTypeList[i].innerText='未知';
+            }
+    });
 });
