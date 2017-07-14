@@ -31,11 +31,17 @@ public class OrderController_Javadog extends BaseController_Javadog {
     private static final MenuService_Javadog ms = new MenuService_Javadog();
     private static final RoomService_Javadog rs = new RoomService_Javadog();
 
+    /**
+     * 渲染订单管理界面
+     */
     @Before({GET.class})
     public void index() {
         render("adminOrder.html");
     }
 
+    /**
+     * 渲染菜品订单第一页
+     */
     @Before({GET.class})
     public void meal() {
         List<Table> unusedList = hs.getTables(false);
@@ -43,6 +49,9 @@ public class OrderController_Javadog extends BaseController_Javadog {
         render("orderMeal_1.html");
     }
 
+    /**
+     * 渲染菜品订单第二页
+     */
     @Before({GET.class})
     public void mealNextStep() {
         Integer orderId = getParaToInt();
@@ -52,20 +61,29 @@ public class OrderController_Javadog extends BaseController_Javadog {
         render("orderMeal_2.html");
     }
 
+    /**
+     * 渲染包间订单第一页
+     */
     @Before({GET.class})
     public void room() {
         render("orderRoom_1.html");
     }
 
+    /**
+     * 渲染包间订单第二页
+     */
     @Before({GET.class})
     public void roomNextStep() {
-        Integer roomOrderId=getParaToInt();
+        Integer roomOrderId = getParaToInt();
         List<Room> unusedList = rs.getUnusedRooms(os.getRoomOrderSize(roomOrderId));
-        setAttr("roomOrderId",roomOrderId);
+        setAttr("roomOrderId", roomOrderId);
         setAttr("unusedList", unusedList);
         render("orderRoom_2.html");
     }
 
+    /**
+     * 渲染包间订单第三页
+     */
     @Before({GET.class})
     public void roomFinalStep() {
         Integer roomOrderId = getParaToInt(0);
@@ -77,6 +95,9 @@ public class OrderController_Javadog extends BaseController_Javadog {
         render("orderRoom_3.html");
     }
 
+    /**
+     * 添加菜品订单
+     */
     @Before({POST.class})
     public void addMeal() {
         Integer tableId = getParaToInt();
@@ -84,6 +105,9 @@ public class OrderController_Javadog extends BaseController_Javadog {
         renderJson(ret);
     }
 
+    /**
+     * 为菜品订单设置内容
+     */
     @Before({POST.class})
     public void setMealText() {
         Integer orderId = getParaToInt("orderId");
@@ -92,29 +116,38 @@ public class OrderController_Javadog extends BaseController_Javadog {
         renderJson(ret);
     }
 
+    /**
+     * 添加包间订单
+     */
     @Before({POST.class})
     public void addRoom() {
-        String orderName=getPara("orderName");
+        String orderName = getPara("orderName");
         Integer orderNum = getParaToInt("orderNum");
-        String orderTel=getPara("orderTel");
-        Ret ret = os.addRoomOrder(orderName,orderNum,orderTel);
+        String orderTel = getPara("orderTel");
+        Ret ret = os.addRoomOrder(orderName, orderNum, orderTel);
         renderJson(ret);
     }
 
+    /**
+     * 为包间订单绑定包间并创建对应的菜品订单
+     */
     @Before({POST.class})
     public void setRoomRoom() {
         Integer roomId = getParaToInt(0);
-        Integer roomOrderId=getParaToInt(1);
-        Ret ret=os.setRoomOrderRoom(roomId,roomOrderId);
+        Integer roomOrderId = getParaToInt(1);
+        Ret ret = os.setRoomOrderRoom(roomId, roomOrderId);
         renderJson(ret);
     }
 
+    /**
+     * 为包间订单绑定菜品订单
+     */
     @Before({POST.class})
     public void setRoomMeal() {
         Integer mealOrderId = getParaToInt("mealOrderId");
         Integer roomOrderId = getParaToInt("roomOrderId");
         String textJson = getPara("data");
-        Ret ret=os.setRoomOrderMealOrder(mealOrderId,roomOrderId,textJson);
+        Ret ret = os.setRoomOrderMealOrder(mealOrderId, roomOrderId, textJson);
         renderJson(ret);
     }
 }

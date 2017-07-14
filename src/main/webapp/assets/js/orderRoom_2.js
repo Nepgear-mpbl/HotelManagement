@@ -33,19 +33,19 @@ layui.use(['element', 'jquery', 'layer'], function () {
         for(var i=0;i<roomTypeList.length;i++)
             switch (roomTypeList[i].innerText){
                 case '0':
-                    roomTypeList[i].innerText='小包间';
+                    roomTypeList[i].innerText='小包间(10)';
                     break;
                 case '1':
-                    roomTypeList[i].innerText='中包间';
+                    roomTypeList[i].innerText='中包间(20)';
                     break;
                 case '2':
-                    roomTypeList[i].innerText='大包间';
+                    roomTypeList[i].innerText='大包间(30)';
                     break;
                 case '3':
-                    roomTypeList[i].innerText='豪华包间';
+                    roomTypeList[i].innerText='豪华包间(40)';
                     break;
                 case '4':
-                    roomTypeList[i].innerText='总统套间';
+                    roomTypeList[i].innerText='总统套间(50)';
                     break;
                 default:
                     roomTypeList[i].innerText='未知';

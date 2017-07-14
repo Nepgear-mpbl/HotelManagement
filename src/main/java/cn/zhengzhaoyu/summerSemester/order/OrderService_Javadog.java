@@ -51,7 +51,7 @@ public class OrderService_Javadog {
             } else {
                 return Ret.by("status", false);
             }
-        }else if(type==1){
+        } else if (type == 1) {
             Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", place));
             if (null == room) {
                 return Ret.by("status", false);
@@ -62,7 +62,7 @@ public class OrderService_Javadog {
             } else {
                 return Ret.by("status", false);
             }
-        }else{
+        } else {
             return Ret.by("status", false);
         }
     }
@@ -100,6 +100,13 @@ public class OrderService_Javadog {
         }
     }
 
+    /**
+     * 为包间订单绑定包间号并创建对应菜品订单
+     *
+     * @param roomId 绑定的包间id
+     * @param roomOrderId 绑定的包间订单id
+     * @return 返回是否成功
+     */
     public Ret setRoomOrderRoom(Integer roomId, Integer roomOrderId) {
         MealOrder mealOrder = new MealOrder();
         Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", roomId));
@@ -110,15 +117,23 @@ public class OrderService_Javadog {
         if (null == roomOrder) {
             return Ret.by("status", false);
         }
-        boolean b = Db.tx(4, () ->mealOrder.setType(1).setPlace(roomId).setState(0).save()&& roomOrder.setRoomId(roomId).setState(0).update() && room.setBelong(roomOrder.getId()).update());
+        boolean b = Db.tx(4, () -> mealOrder.setType(1).setPlace(roomId).setState(0).save() && roomOrder.setRoomId(roomId).setState(0).update() && room.setBelong(roomOrder.getId()).update());
         if (b) {
-            return Ret.by("status", true).set("mealOrderId",mealOrder.getId());
+            return Ret.by("status", true).set("mealOrderId", mealOrder.getId());
         } else {
             return Ret.by("status", false);
         }
     }
 
-    public Ret setRoomOrderMealOrder(Integer mealOrderId, Integer roomOrderId,String text) {
+    /**
+     * 为包间订单绑定菜品订单并添加菜品订单内容
+     *
+     * @param mealOrderId 绑定的菜品订单
+     * @param roomOrderId 绑定的包间订单
+     * @param text 添加的菜品订单内容
+     * @return 返回是否成功
+     */
+    public Ret setRoomOrderMealOrder(Integer mealOrderId, Integer roomOrderId, String text) {
         RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
         if (null == roomOrder) {
             return Ret.by("status", false);
@@ -127,7 +142,7 @@ public class OrderService_Javadog {
         if (null == mealOrder) {
             return Ret.by("status", false);
         }
-        boolean b = Db.tx(4, () ->mealOrder.setOrderText(text).setState(1).update()&& roomOrder.setMealOrderId(mealOrderId).setState(1).update() && mealOrder.setPlace(roomOrder.getRoomId()).update());
+        boolean b = Db.tx(4, () -> mealOrder.setOrderText(text).setState(1).update() && roomOrder.setMealOrderId(mealOrderId).setState(1).update() && mealOrder.setPlace(roomOrder.getRoomId()).update());
         if (b) {
             return Ret.by("status", true);
         } else {
@@ -135,6 +150,11 @@ public class OrderService_Javadog {
         }
     }
 
+    /**
+     * 解析菜品订单的json字符串
+     * @param textJson json字符串
+     * @return 包含解析信息的list数组
+     */
     public ArrayList[] loadFromJson(String textJson) {
         ArrayList jsonList = JsonKit.parse(textJson, ArrayList.class);
         List<HashMap> mapList = new ArrayList<HashMap>();
@@ -152,8 +172,13 @@ public class OrderService_Javadog {
         return (new ArrayList[]{mealIdList, mealNumList});
     }
 
-    public int getRoomOrderSize(int roomOrderId){
-        RoomOrder roomOrder=roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
+    /**
+     * 根据id获取包间订单的客人数目
+     * @param roomOrderId 包间订单id
+     * @return 数目
+     */
+    public int getRoomOrderSize(int roomOrderId) {
+        RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
         return roomOrder.getOrdernum();
     }
 }
