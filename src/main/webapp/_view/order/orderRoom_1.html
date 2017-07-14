@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+#set(title="包间预订")
+#@layout()
 
-</body>
-</html>
+#define body()
+<p style="font-size: 150% ;text-align: center">订单人信息</p>
+<form class="layui-form" action="" id="orderPeople" method="post">
+    <div class="layui-form-item">
+        <input type="text" placeholder="请输入订餐人姓名" required lay-verify="required" name="orderName"
+               class="layui-input">
+    </div>
+    <div class="layui-form-item">
+        <input type="text" placeholder="请输入订餐人数" required lay-verify="required" name="orderNum"
+               class="layui-input">
+    </div>
+    <div class="layui-form-item">
+        <input type="text" placeholder="请输入联系方式" required lay-verify="required" name="orderTel"
+               class="layui-input">
+    </div>
+    <div class="layui-form-item">
+        <button type="submit" class="layui-btn" lay-submit id="button-addOrderPeople-submit" style="width: 100%;"
+                lay-filter="addOrderPeople">确认订单
+        </button>
+    </div>
+</form>
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/orderRoom_1.css">
+#end
+
+#define js()
+<script src="/assets/js/orderRoom_1.js"></script>
+#end

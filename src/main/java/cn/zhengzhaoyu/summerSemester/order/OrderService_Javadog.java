@@ -40,14 +40,29 @@ public class OrderService_Javadog {
      */
     public Ret addMealOrder(Integer type, Integer place) {
         MealOrder mealOrder = new MealOrder();
-        Table table = tableDao.findFirst(tableDao.getSqlPara("table.findById", place));
-        if (null == table) {
-            return Ret.by("status", false);
-        }
-        boolean b = Db.tx(4, () -> mealOrder.setType(type).setPlace(place).setState(0).save() && table.setBelong(mealOrder.getId()).update());
-        if (b) {
-            return Ret.by("status", true).set("orderId", mealOrder.getId());
-        } else {
+        if (type == 0) {
+            Table table = tableDao.findFirst(tableDao.getSqlPara("table.findById", place));
+            if (null == table) {
+                return Ret.by("status", false);
+            }
+            boolean b = Db.tx(4, () -> mealOrder.setType(type).setPlace(place).setState(0).save() && table.setBelong(mealOrder.getId()).update());
+            if (b) {
+                return Ret.by("status", true).set("orderId", mealOrder.getId());
+            } else {
+                return Ret.by("status", false);
+            }
+        }else if(type==1){
+            Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", place));
+            if (null == room) {
+                return Ret.by("status", false);
+            }
+            boolean b = Db.tx(4, () -> mealOrder.setType(type).setPlace(place).setState(0).save());
+            if (b) {
+                return Ret.by("status", true).set("orderId", mealOrder.getId());
+            } else {
+                return Ret.by("status", false);
+            }
+        }else{
             return Ret.by("status", false);
         }
     }
@@ -86,6 +101,7 @@ public class OrderService_Javadog {
     }
 
     public Ret setRoomOrderRoom(Integer roomId, Integer roomOrderId) {
+        MealOrder mealOrder = new MealOrder();
         Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", roomId));
         if (null == room) {
             return Ret.by("status", false);
@@ -94,15 +110,15 @@ public class OrderService_Javadog {
         if (null == roomOrder) {
             return Ret.by("status", false);
         }
-        boolean b = Db.tx(4, () -> roomOrder.setRoomId(roomId).setState(0).update() && room.setBelong(roomOrder.getId()).update());
+        boolean b = Db.tx(4, () ->mealOrder.setType(1).setPlace(roomId).setState(0).save()&& roomOrder.setRoomId(roomId).setState(0).update() && room.setBelong(roomOrder.getId()).update());
         if (b) {
-            return Ret.by("status", true);
+            return Ret.by("status", true).set("mealOrderId",mealOrder.getId());
         } else {
             return Ret.by("status", false);
         }
     }
 
-    public Ret setRoomOrderMealOrder(Integer mealOrderId, Integer roomOrderId) {
+    public Ret setRoomOrderMealOrder(Integer mealOrderId, Integer roomOrderId,String text) {
         RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
         if (null == roomOrder) {
             return Ret.by("status", false);
@@ -111,7 +127,7 @@ public class OrderService_Javadog {
         if (null == mealOrder) {
             return Ret.by("status", false);
         }
-        boolean b = Db.tx(4, () -> roomOrder.setMealOrderId(mealOrderId).setState(1).update() && mealOrder.setPlace(roomOrder.getRoomId()).update());
+        boolean b = Db.tx(4, () ->mealOrder.setOrderText(text).setState(1).update()&& roomOrder.setMealOrderId(mealOrderId).setState(1).update() && mealOrder.setPlace(roomOrder.getRoomId()).update());
         if (b) {
             return Ret.by("status", true);
         } else {

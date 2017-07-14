@@ -1,10 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+#set(title="包间预订")
+#@layout()
 
-</body>
-</html>
+#define body()
+<p style="font-size: 150% ;text-align: center">菜品信息</p>
+#if(menu)
+<div id="menuTable">
+    <p  id="roomOrderId"hidden>#(roomOrderId)</p>
+    <p  id="mealOrderId"hidden>#(mealOrderId)</p>
+    <p  id="menu-size"hidden>#(menu.size())</p>
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>菜名</th>
+            <th>价格</th>
+            <th>类型</th>
+            <th>推荐指数</th>
+            <th>份数</th>
+        </tr>
+        </thead>
+        <tbody class="menu-item">
+        #for(meal:menu)
+        <p  id="id-#(for.index)"hidden>#(meal.id)</p>
+        <tr>
+            <td>#(meal.mealname)</td>
+            <td>#(meal.price)</td>
+            <td class="meal-type">#(meal.type)</td>
+            <td class="meal-rec">#(meal.recommend)</td>
+            <td>
+                <input type="text" value="0" placeholder="请输入份数" class="layui-input" id="num-#(for.index)">
+            </td>
+        </tr>
+        #end
+        </tbody>
+    </table>
+</div>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">当前菜单为空</p>
+#end
+<form class="layui-form" action="/order" id="orderMeal" method="post">
+    <div class="layui-form-item">
+        <button type="submit" class="layui-btn" lay-submit id="button-addMealOrder-submit" style="width: 100%;"
+                lay-filter="addOrderMeal">确认订单
+        </button>
+    </div>
+</form>
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/orderRoom_3.css">
+#end
+
+#define js()
+<script src="/assets/js/orderRoom_3.js"></script>
+#end

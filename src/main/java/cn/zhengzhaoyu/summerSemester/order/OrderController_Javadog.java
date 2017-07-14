@@ -61,16 +61,19 @@ public class OrderController_Javadog extends BaseController_Javadog {
     public void roomNextStep() {
         Integer roomOrderId=getParaToInt();
         List<Room> unusedList = rs.getUnusedRooms(os.getRoomOrderSize(roomOrderId));
+        setAttr("roomOrderId",roomOrderId);
         setAttr("unusedList", unusedList);
         render("orderRoom_2.html");
     }
 
     @Before({GET.class})
     public void roomFinalStep() {
-        Integer roomOrderId = getParaToInt();
+        Integer roomOrderId = getParaToInt(0);
+        Integer mealOrderId = getParaToInt(1);
         List<Meal> menu = ms.getAllMeals();
         setAttr("menu", menu);
         setAttr("roomOrderId", roomOrderId);
+        setAttr("mealOrderId", mealOrderId);
         render("orderRoom_3.html");
     }
 
@@ -101,25 +104,17 @@ public class OrderController_Javadog extends BaseController_Javadog {
     @Before({POST.class})
     public void setRoomRoom() {
         Integer roomId = getParaToInt(0);
-        Ret ret1 = os.addMealOrder(0, roomId);
-        if(!((boolean) ret1.get("status"))){
-            renderJson(ret1);
-        }
         Integer roomOrderId=getParaToInt(1);
-        Ret ret2=os.setRoomOrderRoom(roomId,roomOrderId);
-        renderJson(ret2);
+        Ret ret=os.setRoomOrderRoom(roomId,roomOrderId);
+        renderJson(ret);
     }
 
     @Before({POST.class})
     public void setRoomMeal() {
         Integer mealOrderId = getParaToInt("mealOrderId");
-        String textJson = getPara("data");
-        Ret ret1 = os.setMealOrderText(textJson, mealOrderId);
-        if(!((boolean) ret1.get("status"))){
-            renderJson(ret1);
-        }
         Integer roomOrderId = getParaToInt("roomOrderId");
-        Ret ret2=os.setRoomOrderMealOrder(mealOrderId,roomOrderId);
-        renderJson(ret2);
+        String textJson = getPara("data");
+        Ret ret=os.setRoomOrderMealOrder(mealOrderId,roomOrderId,textJson);
+        renderJson(ret);
     }
 }

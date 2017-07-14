@@ -102,7 +102,7 @@ public class RoomService_Javadog {
         return roomList;
     }
     public List<Room> getUnusedRooms(int minSize) {
-        List<Room> roomList = roomDao.find(roomDao.getSqlPara("room.getUnusedWithMinSize"));
+        List<Room> roomList = roomDao.find(roomDao.getSqlPara("room.getUnusedWithMinSize",(int)(minSize/10)));
         if (0 == roomList.size()) {
             return null;
         }
