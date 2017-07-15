@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+#set(title="用餐预订")
+#@layout()
+
+#define body()
+<div class="layui-tab">
+    <ul class="layui-tab-title">
+        <li class="layui-this">预订大厅</li>
+        <li>预定包间</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <p style="font-size: 150% ;text-align: center">请填写订单人信息</p>
+            <form class="layui-form" action="" id="order1_hall" method="post">
+                <div class="layui-form-item">
+                    <input type="text" placeholder="请输入订餐人姓名" required lay-verify="required" name="orderName"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <input type="text" placeholder="请输入订餐人数" required lay-verify="required" name="orderNum"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <input type="text" placeholder="请输入联系方式" required lay-verify="required" name="orderTel"
+                           class="layui-input">
+                </div>
+
+                <div class="layui-form-item">
+                    <button type="submit" class="layui-btn" lay-submit id="button-order1-submit-1" style="width: 100%;"
+                            lay-filter="order1_hall">预订大厅
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="layui-tab-item">
+            <p style="font-size: 150% ;text-align: center">请填写订单人信息</p>
+            <form class="layui-form" action="" id="order1_room" method="post">
+                <div class="layui-form-item">
+                    <input type="text" placeholder="请输入订餐人姓名" required lay-verify="required" name="orderName"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <input type="text" placeholder="请输入订餐人数(0-50)" required lay-verify="required" name="orderNum"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <input type="text" placeholder="请输入联系方式" required lay-verify="required" name="orderTel"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <button type="submit" class="layui-btn" lay-submit id="button-order1-submit-2" style="width: 100%;"
+                            lay-filter="order1_room">预定包间
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/order_1.css">
+#end
+
+#define js()
+<script src="/assets/js/order_1.js"></script>
+#end

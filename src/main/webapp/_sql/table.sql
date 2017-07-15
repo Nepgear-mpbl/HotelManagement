@@ -9,3 +9,7 @@ SELECT * FROM j_table WHERE `belong` is not null
 #sql("getUnused")
 SELECT * FROM j_table WHERE `belong` is null
 #end
+
+#sql("getUnusedWithMinSize")
+SELECT * FROM j_table WHERE `belong` is null and `seat` >= #para(0)
+#end

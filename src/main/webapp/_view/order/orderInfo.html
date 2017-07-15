@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+#set(title="详细信息")
+#@layout()
+
+#define body()
+#if(data)
+<p style="font-size: 200% ;text-align: center">订单号：#(data.order.id)</p>
+<div id="orderInfo" style="padding-top: 40px;width: 60%;margin: 0 auto">
+    #if(data.order.state==0)
+    <p style="font-size: 150% ;text-align: left">订单状态：未完成</p>
+    #elseif(data.order.state==1)
+    <p style="font-size: 150% ;text-align: left">订单状态：未确认</p>
+    #elseif(data.order.state==2)
+    <p style="font-size: 150% ;text-align: left">订单状态：未支付</p>
+    #elseif(data.order.state==3)
+    <p style="font-size: 150% ;text-align: left">订单状态：已完成</p>
+    #else
+    <p style="font-size: 150% ;text-align: left">订单状态：未知</p>
+    #end
+    #if(data.order.type==0)
+    <p style="font-size: 150% ;text-align: left">订单类型：大厅订单</p>
+    #elseif(data.order.type==1)
+    <p style="font-size: 150% ;text-align: left">订单状态：包间订单</p>
+    #else
+    <p style="font-size: 150% ;text-align: left">订单状态：未知</p>
+    #end
+    <p style="font-size: 150% ;text-align: left">订单人：#(data.order.ordername)</p>
+    <p style="font-size: 150% ;text-align: left">订单人数：#(data.order.ordernum)</p>
+    <p style="font-size: 150% ;text-align: left">订单人联系方式：#(data.order.tel)</p>
+    <p style="font-size: 150% ;">订单内容：</p>
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>菜名</th>
+            <th>价格</th>
+            <th>数目</th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(i=0;i
+        <data.mealNameList.size
+                ();i++)
+        <tr>
+            <td style="font-size: 150% ;">#(data.mealNameList.get(i))</td>
+            <td style="font-size: 150% ;">#(data.mealPriceList.get(i))</td>
+            <td style="font-size: 150% ;">#(data.mealNumList.get(i))</td>
+        </tr>
+        #end
+        </tbody>
+    </table>
+    #if(data.order.type==1)
+    <p style="font-size: 150% ;text-align: left">包间价格：#(data.roomPrice)元</p>
+    #end
+    <p style="font-size: 150% ;text-align: left">总价：#(data.totalPrice)元</p>
+</div>
+<div style="padding-top: 50px;width: 60%;margin: 0 auto">
+    <a href="/order/admin">返回管理界面</a>
+</div>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">没有信息</p>
+#end
+#end
+
+#define css()
+#end
+
+#define js()
+#end

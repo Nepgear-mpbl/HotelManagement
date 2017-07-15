@@ -2,17 +2,17 @@ layui.use(['element', 'jquery', 'layer'], function () {
     var element = layui.element;
     var $ = layui.jquery;
     var layer = layui.layer;
-    $('.addMeal').click(function (e) {
+    $('.setOrderTable').click(function (e) {
         e.preventDefault();
         var $this = $(this);
         var url = $this.prop('href');
-        $.post(url, {}, function (addmMealJson) {
-            if (addmMealJson.status) {
-                var url='/order/mealNextStep/'+addmMealJson.orderId.toString();
+        $.post(url, {}, function (setOrderTableJson) {
+            if (setOrderTableJson.status) {
+                var url='/order/orderFinal/'+$('#orderId').text();
                 console.log(url);
                 layer.open({
                     title: '消息'
-                    , content: '预订成功!'
+                    , content: '预订桌子成功!'
                     ,yes:function () {
                         location.pathname=url;
                     }
@@ -23,7 +23,7 @@ layui.use(['element', 'jquery', 'layer'], function () {
             } else {
                 layer.open({
                     title: '消息'
-                    , content: addmMealJson.message
+                    , content: setOrderTableJson.message
                 });
             }
         });

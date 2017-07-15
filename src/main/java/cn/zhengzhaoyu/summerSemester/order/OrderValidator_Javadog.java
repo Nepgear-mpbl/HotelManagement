@@ -13,7 +13,7 @@ import com.jfinal.core.Controller;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class RoomOrderValidator_Javadog extends BaseValidator_Javadog{
+public class OrderValidator_Javadog extends BaseValidator_Javadog{
     /**
      * 验证请求内容
      * @param c 当前控制器
@@ -31,6 +31,7 @@ public class RoomOrderValidator_Javadog extends BaseValidator_Javadog{
      */
     @Override
     protected void handleError(Controller c) {
-
+        c.setAttr("status",false);
+        c.renderJson();
     }
 }

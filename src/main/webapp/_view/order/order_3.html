@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-#set(title="包间预订")
+#set(title="用餐预订")
 #@layout()
 
 #define body()
-<p style="font-size: 150% ;text-align: center">菜品信息</p>
+<p style="font-size: 150% ;text-align: center">请选择订单的菜品</p>
 #if(menu)
 <div id="menuTable">
-    <p  id="roomOrderId"hidden>#(roomOrderId)</p>
-    <p  id="mealOrderId"hidden>#(mealOrderId)</p>
-    <p  id="menu-size"hidden>#(menu.size())</p>
+    <p  id="orderId" hidden>#(orderId)</p>
+    <p  id="menu-size" hidden>#(menu.size())</p>
     <table class="layui-table">
         <colgroup>
             <col>
@@ -43,21 +42,21 @@
     </table>
 </div>
 #else
-<p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">当前菜单为空</p>
+<p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">抱歉，当前菜单为空</p>
 #end
-<form class="layui-form" action="/order" id="orderMeal" method="post">
+<form class="layui-form" action="" id="setOrderText" method="post">
     <div class="layui-form-item">
-        <button type="submit" class="layui-btn" lay-submit id="button-addMealOrder-submit" style="width: 100%;"
-                lay-filter="addOrderMeal">确认订单
+        <button type="submit" class="layui-btn" lay-submit id="button-setOrderText-submit" style="width: 100%;"
+                lay-filter="setOrderText">确认订单
         </button>
     </div>
 </form>
 #end
 
 #define css()
-<link rel="stylesheet" href="/assets/css/orderRoom_3.css">
+<link rel="stylesheet" href="/assets/css/order_3.css">
 #end
 
 #define js()
-<script src="/assets/js/orderRoom_3.js"></script>
+<script src="/assets/js/order_3.js"></script>
 #end

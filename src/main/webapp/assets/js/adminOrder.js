@@ -1,10 +1,33 @@
-layui.use(['element', 'form', 'jquery', 'layer'], function () {
-    var form = layui.form();
+layui.use(['element', 'jquery', 'layer'], function () {
     var element = layui.element;
     var $ = layui.jquery;
     var layer = layui.layer;
 
-    $('.lookFinishRoom').click(function (e) {
+    $('.confirm').click(function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var url = $this.prop('href');
+        $.post(url, {}, function (confirmJson) {
+            if (confirmJson.status) {
+                layer.open({
+                    title: '消息'
+                    , content: '确认订单成功!'
+                    ,yes:function () {
+                        location.reload();
+                    }
+                    ,cancel:function () {
+                        location.reload();
+                    }
+                });
+            } else {
+                layer.open({
+                    title: '消息'
+                    , content: confirmJson.message
+                });
+            }
+        });
+    });
+    $('.remove').click(function (e) {
         e.preventDefault();
         var $this = $(this);
         var url = $this.prop('href');
@@ -12,7 +35,7 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
             if (removeJson.status) {
                 layer.open({
                     title: '消息'
-                    , content: '删除成功!'
+                    , content: '删除订单成功!'
                     ,yes:function () {
                         location.reload();
                     }
@@ -28,10 +51,28 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
             }
         });
     });
-    $(document).ready(function(){
-        $('.lookFinishRoom').click(function () {
-            $('.Message').show();
-            $('#add-Table-button').hide();
+    $('.removeUnfinished').click(function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var url = $this.prop('href');
+        $.post(url, {}, function (removeUnfinishedJson) {
+            if (removeUnfinishedJson.status) {
+                layer.open({
+                    title: '消息'
+                    , content: '删除订单成功!'
+                    ,yes:function () {
+                        location.reload();
+                    }
+                    ,cancel:function () {
+                        location.reload();
+                    }
+                });
+            } else {
+                layer.open({
+                    title: '消息'
+                    , content: removeUnfinishedJson.message
+                });
+            }
         });
     });
 });

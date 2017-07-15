@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-#set(title="包间预定")
+#set(title="用餐预定")
 #@layout()
 
 #define body()
-<p style="font-size: 150% ;text-align: center">包间信息</p>
-<p hidden id="roomOrderId">#(roomOrderId)</p>
+<p style="font-size: 150% ;text-align: center">请选择要预定的包间</p>
+<p hidden id="orderId">#(orderId)</p>
 #if(unusedList)
 <div id="roomTable">
     <table class="layui-table">
         <colgroup>
-            <col>
             <col>
             <col>
             <col>
@@ -22,7 +21,6 @@
             <th>价格</th>
             <th>类型</th>
             <th>楼层</th>
-            <th>状态</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -33,26 +31,21 @@
             <td>#(room.price)</td>
             <td class="room-type">#(room.type)</td>
             <td>#(room.floor)</td>
-            #if(room.belong!=null)
-            <td style="color: red">订单#(room.belong)号使用中</td>
-            #else
-            <td>空闲</td>
-            #end
-            <td><a class="orderRoom" href="/order/setRoomRoom/#(room.id)-#(roomOrderId)">预订</a></td>
+            <td><a class="setOrderRoom" href="/order/setOrderRoom/#(room.id)-#(orderId)">预订</a></td>
         </tr>
         #end
         </tbody>
     </table>
 </div>
 #else
-<p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">没有符合条件的包间</p>
+<p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">抱歉，没有可用的包间</p>
 #end
 #end
 
 #define css()
-<link rel="stylesheet" href="/assets/css/orderRoom_2.css">
+<link rel="stylesheet" href="/assets/css/order_2_room.css">
 #end
 
 #define js()
-<script src="/assets/js/orderRoom_2.js"></script>
+<script src="/assets/js/order_2_room.js"></script>
 #end

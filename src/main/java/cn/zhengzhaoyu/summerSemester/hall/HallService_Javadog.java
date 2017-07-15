@@ -67,4 +67,11 @@ public class HallService_Javadog {
         }
         return tables;
     }
+    public List<Table> getUnusedTables(int minSize) {
+        List<Table> tableList = tableDao.find(tableDao.getSqlPara("table.getUnusedWithMinSize",minSize));
+        if (0 == tableList.size()) {
+            return null;
+        }
+        return tableList;
+    }
 }

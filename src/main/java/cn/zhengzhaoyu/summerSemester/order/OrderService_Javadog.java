@@ -5,14 +5,16 @@
 package cn.zhengzhaoyu.summerSemester.order;
 
 
-import cn.zhengzhaoyu.summerSemester.common.model.MealOrder;
+import cn.zhengzhaoyu.summerSemester.common.model.Meal;
+import cn.zhengzhaoyu.summerSemester.common.model.Order;
 import cn.zhengzhaoyu.summerSemester.common.model.Room;
-import cn.zhengzhaoyu.summerSemester.common.model.RoomOrder;
 import cn.zhengzhaoyu.summerSemester.common.model.Table;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,132 +28,84 @@ import java.util.List;
  */
 public class OrderService_Javadog {
     public static final OrderService_Javadog me = new OrderService_Javadog();
-    private static final MealOrder mealOrderDao = new MealOrder().dao();
-    private static final RoomOrder roomOrderDao = new RoomOrder().dao();
+    private static final Order orderDao = new Order().dao();
     private static final Table tableDao = new Table().dao();
     private static final Room roomDao = new Room().dao();
+    private static final Meal mealDao = new Meal().dao();
 
     /**
-     * 添加一个新的菜品订单
-     *
-     * @param type  订单类型（ 0 或 1 ）
-     * @param place 订单位置
-     * @return 是否成功
-     */
-    public Ret addMealOrder(Integer type, Integer place) {
-        MealOrder mealOrder = new MealOrder();
-        if (type == 0) {
-            Table table = tableDao.findFirst(tableDao.getSqlPara("table.findById", place));
-            if (null == table) {
-                return Ret.by("status", false);
-            }
-            boolean b = Db.tx(4, () -> mealOrder.setType(type).setPlace(place).setState(0).save() && table.setBelong(mealOrder.getId()).update());
-            if (b) {
-                return Ret.by("status", true).set("orderId", mealOrder.getId());
-            } else {
-                return Ret.by("status", false);
-            }
-        } else if (type == 1) {
-            Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", place));
-            if (null == room) {
-                return Ret.by("status", false);
-            }
-            boolean b = Db.tx(4, () -> mealOrder.setType(type).setPlace(place).setState(0).save());
-            if (b) {
-                return Ret.by("status", true).set("orderId", mealOrder.getId());
-            } else {
-                return Ret.by("status", false);
-            }
-        } else {
-            return Ret.by("status", false);
-        }
-    }
-
-    /**
-     * 设置菜品订单的内容
-     *
-     * @param text        订单内容
-     * @param mealOrderId 查找订单id
-     * @return 是否成功
-     */
-    public Ret setMealOrderText(String text, Integer mealOrderId) {
-        MealOrder mealOrder = mealOrderDao.findFirst(mealOrderDao.getSqlPara("mealOrder.findById", mealOrderId));
-        if (mealOrder.setOrderText(text).setState(1).update()) {
-            return Ret.by("status", true);
-        } else {
-            return Ret.by("status", false);
-        }
-    }
-
-    /**
-     * 添加包间订单
+     * 添加订单
      *
      * @param orderName 订餐人名字
      * @param orderNum  订餐人数
      * @param tel       订餐人电话
      * @return 是否成功
      */
-    public Ret addRoomOrder(String orderName, Integer orderNum, String tel) {
-        RoomOrder roomOrder = new RoomOrder();
-        if (roomOrder.setOrdername(orderName).setOrdernum(orderNum).setTel(tel).setState(0).save()) {
-            return Ret.by("status", true).set("roomOrderId", roomOrder.getId());
+    public Ret addOrder(String orderName, Integer orderNum, String tel) {
+        Order order = new Order();
+        if (order.setOrdername(orderName).setOrdernum(orderNum).setTel(tel).setState(0).save()) {
+            return Ret.by("status", true).set("orderId", order.getId());
         } else {
-            return Ret.by("status", false);
+            return Ret.by("status", false).set("message", "未知错误");
         }
     }
 
     /**
-     * 为包间订单绑定包间号并创建对应菜品订单
+     * 为订单绑定包间/桌子号并设置类型
      *
-     * @param roomId 绑定的包间id
-     * @param roomOrderId 绑定的包间订单id
+     * @param orderId   订单id
+     * @param placeId   绑定的包间/桌子id
+     * @param orderType 绑定的订单类型
      * @return 返回是否成功
      */
-    public Ret setRoomOrderRoom(Integer roomId, Integer roomOrderId) {
-        MealOrder mealOrder = new MealOrder();
-        Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", roomId));
-        if (null == room) {
-            return Ret.by("status", false);
+    public Ret setOrderPlace(Integer orderId, Integer placeId, Integer orderType) {
+        Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        if (null == order) {
+            return Ret.by("status", false).set("message", "订单不存在");
         }
-        RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
-        if (null == roomOrder) {
-            return Ret.by("status", false);
-        }
-        boolean b = Db.tx(4, () -> mealOrder.setType(1).setPlace(roomId).setState(0).save() && roomOrder.setRoomId(roomId).setState(0).update() && room.setBelong(roomOrder.getId()).update());
-        if (b) {
-            return Ret.by("status", true).set("mealOrderId", mealOrder.getId());
+        if (0 == orderType) {
+            Table table = tableDao.findFirst(tableDao.getSqlPara("table.findById", placeId));
+            boolean b = Db.tx(4, () -> order.setPlace(placeId).setType(orderType).update() && table.setBelong(orderId).update());
+            if (b) {
+                return Ret.by("status", true).set("orderId", order.getId());
+            } else {
+                return Ret.by("status", false).set("message", "未知错误");
+            }
+        } else if (1 == orderType) {
+            Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", placeId));
+            boolean b = Db.tx(4, () -> order.setPlace(placeId).setType(orderType).update() && room.setBelong(orderId).update());
+            if (b) {
+                return Ret.by("status", true).set("orderId", order.getId());
+            } else {
+                return Ret.by("status", false).set("message", "未知错误");
+            }
         } else {
-            return Ret.by("status", false);
+            return Ret.by("status", false).set("message", "订单类型错误");
         }
     }
 
     /**
-     * 为包间订单绑定菜品订单并添加菜品订单内容
+     * 为订单绑定菜品
      *
-     * @param mealOrderId 绑定的菜品订单
-     * @param roomOrderId 绑定的包间订单
-     * @param text 添加的菜品订单内容
+     * @param orderId 绑定的订单
+     * @param text    添加的菜品订单内容
      * @return 返回是否成功
      */
-    public Ret setRoomOrderMealOrder(Integer mealOrderId, Integer roomOrderId, String text) {
-        RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
-        if (null == roomOrder) {
-            return Ret.by("status", false);
+    public Ret setOrderText(Integer orderId, String text) {
+        Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        if (null == order) {
+            return Ret.by("status", false).set("message", "订单不存在");
         }
-        MealOrder mealOrder = mealOrderDao.findFirst(mealOrderDao.getSqlPara("mealOrder.findById", mealOrderId));
-        if (null == mealOrder) {
-            return Ret.by("status", false);
-        }
-        boolean b = Db.tx(4, () -> mealOrder.setOrderText(text).setState(1).update() && roomOrder.setMealOrderId(mealOrderId).setState(1).update() && mealOrder.setPlace(roomOrder.getRoomId()).update());
-        if (b) {
+        if (order.setOrderText(text).setState(1).update()) {
             return Ret.by("status", true);
         } else {
-            return Ret.by("status", false);
+            return Ret.by("status", false).set("message", "未知错误");
         }
     }
 
     /**
      * 解析菜品订单的json字符串
+     *
      * @param textJson json字符串
      * @return 包含解析信息的list数组
      */
@@ -166,19 +120,143 @@ public class OrderService_Javadog {
         ArrayList<Integer> mealNumList = new ArrayList<>();
         for (HashMap map : mapList
                 ) {
-            mealIdList.add((Integer) map.get("id"));
-            mealNumList.add((Integer) map.get("num"));
+            mealIdList.add(Integer.parseInt((String) map.get("id")));
+            mealNumList.add(Integer.parseInt((String) map.get("num")));
         }
         return (new ArrayList[]{mealIdList, mealNumList});
     }
 
     /**
-     * 根据id获取包间订单的客人数目
-     * @param roomOrderId 包间订单id
+     * 根据id获取订单的客人数目
+     *
+     * @param orderId 订单id
      * @return 数目
      */
-    public int getRoomOrderSize(int roomOrderId) {
-        RoomOrder roomOrder = roomOrderDao.findFirst(roomOrderDao.getSqlPara("roomOrder.findById", roomOrderId));
-        return roomOrder.getOrdernum();
+    public int getOrderSize(int orderId) {
+        Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        return order.getOrdernum();
+    }
+
+    /**
+     * 根据订单状态获取订单
+     *
+     * @param state 状态
+     * @return 订单list
+     */
+    public List<Record> getOrdersByState(int state) {
+        return Db.find(orderDao.getSqlPara("order.getByStateWithType", state));
+    }
+
+    /**
+     * 获取 订单详细信息
+     *
+     * @param orderId 订单id
+     * @return 详细信息
+     */
+    public Ret getOrderInfo(int orderId) {
+        Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        String orderText = order.getOrderText();
+        Integer orderType = order.getType();
+        ArrayList[] menuInfoList = loadFromJson(orderText);
+        ArrayList mealIdList = menuInfoList[0];
+        ArrayList mealNumList = menuInfoList[1];
+        List<String> retMealName = new ArrayList<>();
+        List<BigDecimal> retMealPrice = new ArrayList<>();
+        List<Integer> retMealNum = new ArrayList<>();
+        double roomPrice = 0;
+        double totalPrice = 0;
+        if (0 == orderType) {
+            totalPrice = 0;
+        } else if (1 == orderType) {
+            Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", order.getPlace()));
+            if (null == room) {
+                return Ret.by("status", false).set("message", "订单状态错误");
+            }
+            roomPrice = room.getPrice().doubleValue();
+        } else {
+            return Ret.by("status", false).set("message", "订单类型错误");
+        }
+        for (int i = 0; i < mealIdList.size(); i++) {
+            Meal meal = mealDao.findFirst(mealDao.getSqlPara("meal.findById", mealIdList.get(i)));
+            String mealName = meal.getMealname();
+            retMealName.add(mealName);
+            BigDecimal mealPrice = meal.getPrice();
+            retMealPrice.add(mealPrice);
+            retMealNum.add((int) mealNumList.get(i));
+            totalPrice += mealPrice.doubleValue() * (int) mealNumList.get(i);
+        }
+        totalPrice += roomPrice;
+        return Ret.by("status", true).set("mealNameList", retMealName).set("mealPriceList", retMealPrice)
+                .set("mealNumList", retMealNum).set("roomPrice", roomPrice).set("totalPrice", totalPrice).set("order", order);
+    }
+
+    /**
+     * 确认订单
+     *
+     * @param orderId 订单id
+     * @return 是否成功
+     */
+    public Ret confirmOrder(int orderId) {
+        Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        if (null == order) {
+            return Ret.by("status", false).set("message", "订单不存在");
+        }
+        if (order.getState() == 2) {
+            return Ret.by("status", false).set("message", "请不要重复确认");
+        }
+        if (order.getState() != 1) {
+            return Ret.by("status", false).set("message", "订单状态错误");
+        }
+        if (order.setState(2).update()) {
+            return Ret.by("status", true);
+        } else {
+            return Ret.by("status", false).set("message", "未知错误");
+        }
+
+    }
+
+    /**
+     * 支付订单
+     *
+     * @param orderId 订单id
+     * @return 是否成功
+     */
+    public Ret payOrder(int orderId) {
+        Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        //todo pay order
+        return Ret.by("status", false).set("message", "未知错误");
+    }
+
+    /**
+     * 删除订单
+     *
+     * @param orderId 订单id
+     * @return 是否成功
+     */
+    public Ret removeOrder(int orderId) {
+        Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        if (null == order) {
+            return Ret.by("status", false).set("message", "订单不存在");
+        }
+        if (order.getState() != 3) {
+            return Ret.by("status", false).set("message", "订单状态错误");
+        }
+        if (order.delete()) {
+            return Ret.by("status", true);
+        } else {
+            return Ret.by("status", false);
+        }
+    }
+
+    /**
+     * 删除未完成订单
+     *
+     * @param orderId 订单id
+     * @return 是否成功
+     */
+    public Ret removeUnfinishedOrder(int orderId) {
+        Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        //todo removeUnfinishedOrder
+        return Ret.by("status", false).set("message", "未知错误");
     }
 }
