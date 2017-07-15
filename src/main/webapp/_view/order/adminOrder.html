@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+#set(title="订单管理")
+#@layout()
+
+#define body()
+<p style="font-size: 150% ;text-align: center">订单信息</p>
+#if(roomOrderList)
+<div class="layui-tab">
+    <ul class="layui-tab-title">
+        <li class="layui-this">已完成订单</li>
+        <li>未完成订单</li>
+        <li>无效订单</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>订餐人姓名</th>
+                    <th>订餐人数</th>
+                    <th>联系方式</th>
+                    <th>房间名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                #for(room_order:roomOrderList)
+                <tr>
+                    <td>#(room_order.orderName)</td>
+                    <td>#(room_order.orderNum)</td>
+                    <td>#(room_order.orderTel)</td>
+                    <td>#(room_order.id)</td>
+                    <td><a href="" class="lookFinishRoom">详细信息</a>/<a href="" class="removeFinishRoom">删除</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-tab-item layui-show">
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>订餐人姓名</th>
+                    <th>订餐人数</th>
+                    <th>联系方式</th>
+                    <th>房间名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                #for(room_order:roomOrderList)
+                <tr>
+                    <td>#(room_order.orderName)</td>
+                    <td>#(room_order.orderNum)</td>
+                    <td>#(room_order.orderTel)</td>
+                    <td>#(room_order.id)</td>
+                    <td><a href="" class="lookUnfinishRoom">详细信息</a>/<a href="" class="ensureRoom">确认</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-tab-item layui-show">
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>订餐人姓名</th>
+                    <th>订餐人数</th>
+                    <th>联系方式</th>
+                    <th>房间名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                #for(room_order:roomOrderList)
+                <tr>
+                    #if(room_order.orderName==null)
+                    <td style="color: red">尚未填写</td>
+                    #else
+                    <td>#(room_order.orderName)</td>
+                    #end
+                    #if(room_order.orderNum==null)
+                    <td style="color: red">尚未填写</td>
+                    #else
+                    <td>#(room_order.orderNum)</td>
+                    #end
+                    #if(room_order.orderTel==null)
+                    <td style="color: red">尚未填写</td>
+                    #else
+                    <td>#(room_order.orderTel)</td>
+                    #end
+                    #if(room_order.id==null)
+                    <td style="color: red">尚未填写</td>
+                    #else
+                    <td>#(room_order.id)</td>
+                    #end
+                    <td><a href="" class="removeUselessRoom">删除</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 20px;padding-bottom: 20px;float: left;width:50%;">没有房间订单</p>
+#end
+
+#if(mealOrderList)
+<div class="layui-tab">
+    <ul class="layui-tab-title">
+        <li class="layui-this">已完成订单</li>
+        <li>未完成订单</li>
+        <li>无效订单</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>订餐人姓名</th>
+                    <th>订餐人数</th>
+                    <th>联系方式</th>
+                    <th>桌子号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                #for(meal_order:mealOrderList)
+                <tr>
+                    <td>#(meal_order.orderName)</td>
+                    <td>#(meal_order.orderNum)</td>
+                    <td>#(meal_order.orderTel)</td>
+                    <td>#(meal_order.place)</td>
+                    <td><a href="" class="lookFinishMeal">详细信息</a>/<a href="" class="removeFinishMeal">删除</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-tab-item layui-show">
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>订餐人姓名</th>
+                    <th>订餐人数</th>
+                    <th>联系方式</th>
+                    <th>房间名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                #for(meal_order:mealOrderList)
+                <tr>
+                    <td>#(meal_order.orderName)</td>
+                    <td>#(meal_order.orderNum)</td>
+                    <td>#(meal_order.orderTel)</td>
+                    <td>#(meal_order.place)</td>
+                    <td><a href="" class="lookUnFinishMeal">详细信息</a>/<a href="" class="ensureMeal">确认</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-tab-item layui-show">
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>订餐人姓名</th>
+                    <th>订餐人数</th>
+                    <th>联系方式</th>
+                    <th>房间名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                #for(meal_order:mealOrderList)
+                <tr>
+                    #if(meal_order.orderName==null)
+                    <td style="color: red">尚未填写</td>
+                    #else
+                    <td>#(meal_order.orderName)</td>
+                    #end
+                    #if(meal_order.orderNum==null)
+                    <td style="color: red">尚未填写</td>
+                    #else
+                    <td>#(meal_order.orderNum)</td>
+                    #end
+                    #if(meal_order.orderTel==null)
+                    <td style="color: red">尚未填写</td>
+                    #else
+                    <td>#(meal_order.orderTel)</td>
+                    #end
+                    #if(meal_order.place==null)
+                    <td style="color: red">尚未填写</td>
+                    #else
+                    <td>#(meal_order.place)</td>
+                    #end
+                    <td><a href="" class="removeUselessMeal">删除</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element();
+
+        //…
+    });
+</script>
+#else
+<p style="font-size: 100% ;text-align: center;padding-top: 20px;padding-bottom: 20px;float: left;width:50%;">没有菜品订单</p>
+#end
+<div class="Message" hidden>
+<table>
+    <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>订餐人姓名</th>
+        <th>菜品名称</th>
+        <th>菜品价格</th>
+        <th>份数</th>
+        <th>包间价格</th>
+        <th>总价格</th>
+    </tr>
+    </thead>
+    <tbody>
+    #for(meal_order:mealOrderList)
+    <tr>
+        <td>#(meal_order.orderName)</td>
+        <td>#(meal_order.orderNum)</td>
+        <td>#(meal_order.orderTel)</td>
+        <td>#(meal_order.place)</td>
+        <td>#(meal_order.place)</td>
+        <td>#(meal_order.place)</td>
+    </tr>
+    #end
+    </tbody>
+</table>
+<button id="ensure" class="layui-btn" style="width: 100%">确认</button>
+</div>
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/adminOrder.css">
+#end
+
+#define js()
+<script src="/assets/js/adminOrder.js"></script>
+#end
