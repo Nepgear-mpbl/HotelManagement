@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+#set(title="修改信息")
+#@layout()
+
+#define body()
+<div class="layui-main" style="text-align:center;width: 80%;margin:0 auto;">
+    <p style="font-size: 120%">修改密码</p>
+    <div id="changeInfo-div">
+        <form class="layui-form" action="" id="changeInfo-form" method="post">
+            <div class="layui-form-item">
+                <input type="text" placeholder="请输入旧密码" required lay-verify="required" name="oldPassword"
+                       id="input-oldPassword"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <input type="password" placeholder="请输入新密码" required lay-verify="required" name="newPassword"
+                       id="input-newPassword"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <input type="password" placeholder="请重复新密码" required lay-verify="required" name="repeatNewPassword"
+                       id="input-repeatNewPassword"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-item" id="catpcha-div">
+                <input type="text" placeholder="请输入验证码" required lay-verify="required" name="captcha"
+                       class="layui-input" style="display:inline;width: 85%;float: left"
+                       id="captcha-input">
+                <img src='/login/captcha' id="captcha-img" title="点击刷新" style="float: right">
+            </div>
+            <div class="layui-form-item">
+                <button type="submit" class="layui-btn" lay-submit id="button-submit" style="width: 100%;"
+                        lay-filter="changePwdSubmit">更改密码
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+#end
+
+#define js()
+<script src="/assets/js/changeInfo.js"></script>
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/changeInfo.css">
+#end
