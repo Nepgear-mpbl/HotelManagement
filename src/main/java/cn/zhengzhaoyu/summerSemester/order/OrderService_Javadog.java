@@ -41,9 +41,9 @@ public class OrderService_Javadog {
      * @param tel       订餐人电话
      * @return 是否成功
      */
-    public Ret addOrder(String orderName, Integer orderNum, String tel) {
+    public Ret addOrder(String orderName, Integer orderNum, String tel, Integer userId) {
         Order order = new Order();
-        if (order.setOrdername(orderName).setOrdernum(orderNum).setTel(tel).setState(0).save()) {
+        if (order.setOrdername(orderName).setOrdernum(orderNum).setTel(tel).setOrderuser(userId).setState(0).save()) {
             return Ret.by("status", true).set("orderId", order.getId());
         } else {
             return Ret.by("status", false).set("message", "未知错误");
@@ -143,8 +143,28 @@ public class OrderService_Javadog {
      * @param state 状态
      * @return 订单list
      */
-    public List<Record> getOrdersByState(int state) {
+    public List<Record> getOrderByState(int state) {
+        return Db.find(orderDao.getSqlPara("order.getByState", state));
+    }
+
+    /**
+     * 根据订单状态获取订单
+     *
+     * @param state 状态
+     * @return 订单list
+     */
+    public List<Record> getOrderByStateWithType(int state) {
         return Db.find(orderDao.getSqlPara("order.getByStateWithType", state));
+    }
+
+    /**
+     * 根据订单及用户状态获取订单
+     *
+     * @param state 状态
+     * @return 订单list
+     */
+    public List<Record> getOrdersByStateAndUser(int state, int userId) {
+        return Db.find(orderDao.getSqlPara("order.getByStateWithTypeAndUser", state, userId));
     }
 
     /**
@@ -223,8 +243,40 @@ public class OrderService_Javadog {
      */
     public Ret payOrder(int orderId) {
         Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
-        //todo pay order
-        return Ret.by("status", false).set("message", "未知错误");
+        if (null == order) {
+            return Ret.by("status", false).set("message", "订单不存在");
+        }
+        if (order.getState() == 3) {
+            return Ret.by("status", false).set("message", "请不要重复支付");
+        }
+        if (order.getState() != 2) {
+            return Ret.by("status", false).set("message", "订单状态错误");
+        }
+        if (0 == order.getType()) {
+            Table table = tableDao.findFirst(tableDao.getSqlPara("table.findById", order.getPlace()));
+            if (null == table) {
+                return Ret.by("status", false).set("message", "订单错误");
+            }
+            boolean b = Db.tx(4, () -> order.setState(3).update() && table.setBelong(null).update());
+            if (b) {
+                return Ret.by("status", true);
+            } else {
+                return Ret.by("status", false).set("message", "未知错误");
+            }
+        } else if (1 == order.getType()) {
+            Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", order.getPlace()));
+            if (null == room) {
+                return Ret.by("status", false).set("message", "订单错误");
+            }
+            boolean b = Db.tx(4, () -> order.setState(3).update() && room.setBelong(null).update());
+            if (b) {
+                return Ret.by("status", true).set("orderId", order.getId());
+            } else {
+                return Ret.by("status", false).set("message", "未知错误");
+            }
+        } else {
+            return Ret.by("status", false).set("message", "订单类型错误");
+        }
     }
 
     /**
@@ -256,7 +308,41 @@ public class OrderService_Javadog {
      */
     public Ret removeUnfinishedOrder(int orderId) {
         Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
-        //todo removeUnfinishedOrder
-        return Ret.by("status", false).set("message", "未知错误");
+        if (null == order) {
+            return Ret.by("status", false).set("message", "订单不存在");
+        }
+        if (null == order.getPlace()) {
+            if (order.delete()) {
+                return Ret.by("status", true);
+            } else {
+                return Ret.by("status", false);
+            }
+        } else {
+            if (0 == order.getType()) {
+                Table table = tableDao.findFirst(tableDao.getSqlPara("table.findById", order.getPlace()));
+                if (null == table) {
+                    return Ret.by("status", false).set("message", "订单错误");
+                }
+                boolean b = Db.tx(4, () -> order.delete() && table.setBelong(null).update());
+                if (b) {
+                    return Ret.by("status", true);
+                } else {
+                    return Ret.by("status", false).set("message", "未知错误");
+                }
+            } else if (1 == order.getType()) {
+                Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", order.getPlace()));
+                if (null == room) {
+                    return Ret.by("status", false).set("message", "订单错误");
+                }
+                boolean b = Db.tx(4, () -> order.delete() && room.setBelong(null).update());
+                if (b) {
+                    return Ret.by("status", true).set("orderId", order.getId());
+                } else {
+                    return Ret.by("status", false).set("message", "未知错误");
+                }
+            } else {
+                return Ret.by("status", false).set("message", "订单类型错误");
+            }
+        }
     }
 }

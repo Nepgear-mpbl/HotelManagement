@@ -5,11 +5,9 @@
 package cn.zhengzhaoyu.summerSemester.order;
 
 import cn.zhengzhaoyu.summerSemester.common.controller.BaseController_Javadog;
-import cn.zhengzhaoyu.summerSemester.common.model.Meal;
-import cn.zhengzhaoyu.summerSemester.common.model.Order;
-import cn.zhengzhaoyu.summerSemester.common.model.Room;
-import cn.zhengzhaoyu.summerSemester.common.model.Table;
+import cn.zhengzhaoyu.summerSemester.common.model.*;
 import cn.zhengzhaoyu.summerSemester.hall.HallService_Javadog;
+import cn.zhengzhaoyu.summerSemester.login.LoginService_Javadog;
 import cn.zhengzhaoyu.summerSemester.menu.MenuService_Javadog;
 import cn.zhengzhaoyu.summerSemester.room.RoomService_Javadog;
 import com.jfinal.aop.Before;
@@ -17,6 +15,7 @@ import com.jfinal.ext.interceptor.GET;
 import com.jfinal.ext.interceptor.POST;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.redis.Redis;
 
 import java.util.List;
 
@@ -82,15 +81,32 @@ public class OrderController_Javadog extends BaseController_Javadog {
      */
     @Before({GET.class})
     public void admin() {
-        List<Record> unfinishedOrderList = os.getOrdersByState(0);
-        List<Record> unconfirmedOrderList = os.getOrdersByState(1);
-        List<Record> confirmedOrderList = os.getOrdersByState(2);
-        List<Record> payedOrderList = os.getOrdersByState(3);
+        List<Record> unfinishedOrderList = os.getOrderByState(0);
+        List<Record> unconfirmedOrderList = os.getOrderByStateWithType(1);
+        List<Record> confirmedOrderList = os.getOrderByStateWithType(2);
+        List<Record> payedOrderList = os.getOrderByStateWithType(3);
         setAttr("unfinishedOrderList", unfinishedOrderList);
         setAttr("unconfirmedOrderList", unconfirmedOrderList);
         setAttr("confirmedOrderList", confirmedOrderList);
         setAttr("payedOrderList", payedOrderList);
         render("adminOrder.html");
+    }
+
+    /**
+     * 渲染用户订单管理界面
+     */
+    @Before({GET.class})
+    public void user() {
+        String token = getCookie(LoginService_Javadog.SESSION_ID_NAME);
+        User user = Redis.use().get(token);
+        Integer userId=user.getId();
+        List<Record> unconfirmedOrderList = os.getOrdersByStateAndUser(1,userId);
+        List<Record> confirmedOrderList = os.getOrdersByStateAndUser(2,userId);
+        List<Record> payedOrderList = os.getOrdersByStateAndUser(3,userId);
+        setAttr("unconfirmedOrderList", unconfirmedOrderList);
+        setAttr("confirmedOrderList", confirmedOrderList);
+        setAttr("payedOrderList", payedOrderList);
+        render("userOrder.html");
     }
 
     @Before({GET.class})
@@ -106,10 +122,13 @@ public class OrderController_Javadog extends BaseController_Javadog {
      */
     @Before({POST.class, OrderValidator_Javadog.class})
     public void addOrder() {
+        String token = getCookie(LoginService_Javadog.SESSION_ID_NAME);
+        User user = Redis.use().get(token);
+        Integer userId=user.getId();
         String orderName = getPara("orderName");
         Integer orderNum = getParaToInt("orderNum");
         String orderTel = getPara("orderTel");
-        Ret ret = os.addOrder(orderName, orderNum, orderTel);
+        Ret ret = os.addOrder(orderName, orderNum, orderTel,userId);
         renderJson(ret);
     }
 

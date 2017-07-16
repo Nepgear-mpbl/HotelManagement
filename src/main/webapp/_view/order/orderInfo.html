@@ -58,9 +58,15 @@
     #end
     <p style="font-size: 150% ;text-align: left">总价：#(data.totalPrice)元</p>
 </div>
+#if(user&&user.type==0)
 <div style="padding-top: 50px;width: 60%;margin: 0 auto">
     <a href="/order/admin">返回管理界面</a>
 </div>
+#else
+<div style="padding-top: 50px;width: 60%;margin: 0 auto">
+    <a href="/order/user">我的订单</a>
+</div>
+#end
 #else
 <p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">没有信息</p>
 #end

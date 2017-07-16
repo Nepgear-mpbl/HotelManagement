@@ -87,3 +87,5 @@ fabric.properties
 summerSemester.iml
 config-dev.properties
 /src/main/webapp/layui
+/target
+/easy-delivery

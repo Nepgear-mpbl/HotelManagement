@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+#set(title="我的订单")
+#@layout()
+
+#define body()
+<p style="font-size: 150% ;text-align: center">我的订单</p>
+<div class="layui-tab">
+    <ul class="layui-tab-title">
+        <li class="layui-this">未付款订单</li>
+        <li>未确认订单</li>
+        <li>已完成订单</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item  layui-show">
+            #if(confirmedOrderList)
+            <div id="orderTable_2">
+                <table class="layui-table">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>订单人姓名</th>
+                        <th>订单人数</th>
+                        <th>联系方式</th>
+                        <th>订单类型</th>
+                        <th>位置</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #for(order:confirmedOrderList)
+                    <tr>
+                        <td>#(order.ordername)</td>
+                        <td>#(order.ordernum)</td>
+                        <td>#(order.tel)</td>
+                        <td class="order-type">#(order.type)</td>
+                        <td class="order-place">#(order.place)</td>
+                        <td><a class="info" href="/order/orderInfo/#(order.id)">详细信息</a>
+                            /<a class="pay" href="/order/payOrder/#(order.id)">确认付款</a></td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+            #else
+            <p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">没有未付款订单</p>
+            #end
+        </div>
+        <div class="layui-tab-item">
+            #if(unconfirmedOrderList)
+            <div id="orderTable_1">
+                <table class="layui-table">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>订单人姓名</th>
+                        <th>订单人数</th>
+                        <th>联系方式</th>
+                        <th>订单类型</th>
+                        <th>位置</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #for(order:unconfirmedOrderList)
+                    <tr>
+                        <td>#(order.ordername)</td>
+                        <td>#(order.ordernum)</td>
+                        <td>#(order.tel)</td>
+                        <td class="order-type">#(order.type)</td>
+                        <td class="order-place">#(order.place)</td>
+                        <td><a class="info" href="/order/orderInfo/#(order.id)">详细信息</a></td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+            #else
+            <p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">没有未确认订单</p>
+            #end
+        </div>
+        <div class="layui-tab-item">
+            #if(payedOrderList)
+            <div id="orderTable_3">
+                <table class="layui-table">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>订单人姓名</th>
+                        <th>订单人数</th>
+                        <th>联系方式</th>
+                        <th>订单类型</th>
+                        <th>位置</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #for(order:payedOrderList)
+                    <tr>
+                        <td>#(order.ordername)</td>
+                        <td>#(order.ordernum)</td>
+                        <td>#(order.tel)</td>
+                        <td class="order-type">#(order.type)</td>
+                        <td class="order-place">#(order.place)</td>
+                        <td><a class="info" href="/order/orderInfo/#(order.id)">详细信息</a></td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+            #else
+            <p style="font-size: 100% ;text-align: center;padding-top: 100px;padding-bottom: 100px">没有已完成订单</p>
+            #end
+        </div>
+    </div>
+</div>
+<div style="padding-top: 30px;text-align: center">
+    <a href="/order">我要预订</a>
+</div>
+#end
+
+#define css()
+<link rel="stylesheet" href="/assets/css/userOrder.css">
+#end
+
+#define js()
+<script src="/assets/js/userOrder.js"></script>
+#end

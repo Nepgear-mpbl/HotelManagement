@@ -81,4 +81,13 @@ public abstract class BaseOrder<M extends BaseOrder<M>> extends Model<M> impleme
 		return get("tel");
 	}
 
+	public M setOrderuser(java.lang.Integer orderuser) {
+		set("orderuser", orderuser);
+		return (M)this;
+	}
+
+	public java.lang.Integer getOrderuser() {
+		return get("orderuser");
+	}
+
 }

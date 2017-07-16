@@ -157,15 +157,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    #for(order:payedOrderList)
+                    #for(order:unfinishedOrderList)
                     <tr>
                         <td>#(order.ordername)</td>
                         <td>#(order.ordernum)</td>
                         <td>#(order.tel)</td>
+                        #if(order.type!=null)
                         <td class="order-type">#(order.type)</td>
-                        <td class="order-place">#(order.place)</td>
-                        <td><a class="info" href="/order/orderInfo/#(order.id)">详细信息</a>/
-                            <a class="removeUnfinished" href="/order/removeUnfinishedOrder/#(order.id)">删除</a></td>
+                        #else
+                        <td class="order-type">未完成</td>
+                        #end
+                        #if(order.place!=null)
+                        <td class="order-type">#(order.place)</td>
+                        #else
+                        <td class="order-type">未完成</td>
+                        #end
+                        <td><a class="removeUnfinished" href="/order/removeUnfinishedOrder/#(order.id)">删除</a></td>
                     </tr>
                     #end
                     </tbody>

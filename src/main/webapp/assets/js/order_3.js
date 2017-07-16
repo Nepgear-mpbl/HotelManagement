@@ -30,10 +30,10 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
                         title: '消息'
                         , content: '提交成功!'
                         , yes: function () {
-                            location.path = "/";
+                            location.href = '/order/user';
                         }
                         , cancel: function () {
-                            location.path = "/";
+                            location.href = '/order/user';
                         }
                     });
                 } else {
