@@ -5,10 +5,7 @@
 package cn.zhengzhaoyu.summerSemester.order;
 
 
-import cn.zhengzhaoyu.summerSemester.common.model.Meal;
-import cn.zhengzhaoyu.summerSemester.common.model.Order;
-import cn.zhengzhaoyu.summerSemester.common.model.Room;
-import cn.zhengzhaoyu.summerSemester.common.model.Table;
+import cn.zhengzhaoyu.summerSemester.common.model.*;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
@@ -23,7 +20,7 @@ import java.util.List;
  * 订单服务的方法类
  *
  * @author ZZY
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
 public class OrderService_Javadog {
@@ -32,6 +29,7 @@ public class OrderService_Javadog {
     private static final Table tableDao = new Table().dao();
     private static final Room roomDao = new Room().dao();
     private static final Meal mealDao = new Meal().dao();
+    private static final User userDao = new User().dao();
 
     /**
      * 添加订单
@@ -175,6 +173,15 @@ public class OrderService_Javadog {
      */
     public Ret getOrderInfo(int orderId) {
         Order order = orderDao.findFirst(orderDao.getSqlPara("order.findById", orderId));
+        if (null == order) {
+            return Ret.by("status", false).set("message", "订单不存在");
+        }
+        Integer userId = order.getOrderuser();
+        User user = userDao.findFirst(userDao.getSqlPara("user.findById", userId));
+        if (null == user) {
+            return Ret.by("status", false).set("message", "订单错误");
+        }
+        boolean discount = user.getType() == 1;
         String orderText = order.getOrderText();
         Integer orderType = order.getType();
         ArrayList[] menuInfoList = loadFromJson(orderText);
@@ -183,16 +190,16 @@ public class OrderService_Javadog {
         List<String> retMealName = new ArrayList<>();
         List<BigDecimal> retMealPrice = new ArrayList<>();
         List<Integer> retMealNum = new ArrayList<>();
-        double roomPrice = 0;
-        double totalPrice = 0;
+        BigDecimal roomPrice;
+        BigDecimal totalPrice = new BigDecimal("0");
         if (0 == orderType) {
-            totalPrice = 0;
+            roomPrice = new BigDecimal("0");
         } else if (1 == orderType) {
             Room room = roomDao.findFirst(roomDao.getSqlPara("room.findById", order.getPlace()));
             if (null == room) {
                 return Ret.by("status", false).set("message", "订单状态错误");
             }
-            roomPrice = room.getPrice().doubleValue();
+            roomPrice = room.getPrice();
         } else {
             return Ret.by("status", false).set("message", "订单类型错误");
         }
@@ -203,11 +210,15 @@ public class OrderService_Javadog {
             BigDecimal mealPrice = meal.getPrice();
             retMealPrice.add(mealPrice);
             retMealNum.add((int) mealNumList.get(i));
-            totalPrice += mealPrice.doubleValue() * (int) mealNumList.get(i);
+            totalPrice=totalPrice.add(mealPrice.multiply(new BigDecimal((Integer)mealNumList.get(i))));
+            totalPrice=totalPrice.add(roomPrice);
+            if (discount) {
+                totalPrice =totalPrice.multiply(new BigDecimal("0.8"));
+            }
+            totalPrice=totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
-        totalPrice += roomPrice;
-        return Ret.by("status", true).set("mealNameList", retMealName).set("mealPriceList", retMealPrice)
-                .set("mealNumList", retMealNum).set("roomPrice", roomPrice).set("totalPrice", totalPrice).set("order", order);
+        return Ret.by("status", true).set("mealNameList", retMealName).set("mealPriceList", retMealPrice).set("orderuser", user.getUsername())
+                .set("mealNumList", retMealNum).set("roomPrice", roomPrice).set("totalPrice", totalPrice).set("order", order).set("isVip", discount);
     }
 
     /**

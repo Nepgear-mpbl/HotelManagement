@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 大厅管理服务.
  * @author ZZY
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
 public class HallService_Javadog {
@@ -42,6 +42,9 @@ public class HallService_Javadog {
         Table table = tableDao.findFirst(tableDao.getSqlPara("table.findById", tableId));
         if (null == table) {
             return Ret.by("status", false);
+        }
+        if (null != table.getBelong()) {
+            return Ret.by("status", false).set("message","正在使用中，无法删除");
         }
         if (table.delete()) {
             return Ret.by("status", true);
