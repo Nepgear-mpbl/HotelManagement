@@ -12,7 +12,7 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
                 console.log(url);
                 layer.open({
                     title: '消息'
-                    , content: '创建订单成功!'
+                    , content: '预订大厅成功!'
                     ,yes:function () {
                         location.pathname=url;
                     }
@@ -37,7 +37,7 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
                 console.log(url);
                 layer.open({
                     title: '消息'
-                    , content: '创建订单成功!'
+                    , content: '预订包间成功!'
                     ,yes:function () {
                         location.pathname=url;
                     }

@@ -58,5 +58,9 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
             $('#add-Table-div').show();
             $('#add-Table-button').hide();
         });
+        $('#cancerAdd').click(function () {
+            $('#add-Table-div').hide();
+            $('#add-Table-button').show();
+        });
     });
 });

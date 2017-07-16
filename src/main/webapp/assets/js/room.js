@@ -81,6 +81,7 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
         e.preventDefault();
         var $this = $(this);
         editRoomUrl = $this.prop('href');
+        $('#add-button').hide();
         $('#edit-room-div').show();
         $('#edit-room-lable').text('当前修改包间名:'+$this.parent().parent().find('td:first').text());
     });
@@ -109,6 +110,14 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
         $('#add-button').click(function () {
             $('#add-room-div').show();
             $('#add-button').hide();
+        });
+        $('#cancerAdd').click(function () {
+            $('#add-room-div').hide();
+            $('#add-button').show();
+        });
+        $('#cancerEdit').click(function () {
+            $('#edit-room-div').hide();
+            $('#add-button').show();
         });
     });
 });

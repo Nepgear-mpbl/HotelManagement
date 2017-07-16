@@ -81,6 +81,7 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
         e.preventDefault();
         var $this = $(this);
         editMealUrl = $this.prop('href');
+        $('#add-button').hide();
         $('#edit-menu-div').show();
         $('#edit-menu-lable').text('当前修改菜名:'+$this.parent().parent().find('td:first').text());
     });
@@ -128,6 +129,14 @@ layui.use(['element', 'form', 'jquery', 'layer'], function () {
         $('#add-button').click(function () {
             $('#add-menu-div').show();
             $('#add-button').hide();
+        });
+        $('#cancerAdd').click(function () {
+            $('#add-menu-div').hide();
+            $('#add-button').show();
+        });
+        $('#cancerEdit').click(function () {
+            $('#edit-menu-div').hide();
+            $('#add-button').show();
         });
     });
 });

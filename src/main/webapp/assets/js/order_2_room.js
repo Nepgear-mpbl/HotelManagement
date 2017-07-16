@@ -52,4 +52,7 @@ layui.use(['element', 'jquery', 'layer'], function () {
             }
         }
     });
+    $('#cancer').click(function () {
+        location.pathname='/order';
+    });
 });
