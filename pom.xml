@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <packaging>war</packaging>
     <groupId>cn.zhengzhaoyu</groupId>
     <artifactId>summerSemester</artifactId>
     <version>1.0.0</version>
@@ -49,7 +50,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
-            <scope>providedRuntime</scope>
+            <scope>provided</scope>
         </dependency>
         <!-- log4j -->
         <dependency>
@@ -96,6 +97,7 @@
     </dependencies>
 
     <build>
+        <finalName>ROOT</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
