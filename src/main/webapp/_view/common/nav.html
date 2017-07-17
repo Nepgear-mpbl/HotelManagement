@@ -1,8 +1,8 @@
 <ul class="layui-nav" lay-filter="">
-    <li class="layui-nav-item"><a href="/">首页</a></li>
+    <li class="layui-nav-item"><a href="/">假日酒楼</a></li>
     #if(user&&user.type==0)
     <li class="layui-nav-item">
-        <a href="javascript:;">管理服务(admin)</a>
+        <a href="javascript:;">管理服务</a>
         <dl class="layui-nav-child">
             <dd><a href="/menu">菜单管理</a></dd>
             <dd><a href="/room">包间管理</a></dd>
@@ -38,5 +38,4 @@
         </dl>
     </li>
     #end
-    <!--todo 根据页面给导航栏添加 layui-this 的class-->
 </ul>

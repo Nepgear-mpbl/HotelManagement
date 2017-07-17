@@ -1,8 +1,0 @@
-#body {
-    text-align: center;
-    background: URL(/assets/img/bg.jpg) no-repeat fixed center;
-    height: 1500px;
-    width: 100%;
-    opacity:0.6;
-    filter:alpha(opacity=60)
-}
