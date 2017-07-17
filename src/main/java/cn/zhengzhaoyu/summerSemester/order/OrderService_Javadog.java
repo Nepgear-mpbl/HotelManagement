@@ -210,13 +210,14 @@ public class OrderService_Javadog {
             BigDecimal mealPrice = meal.getPrice();
             retMealPrice.add(mealPrice);
             retMealNum.add((int) mealNumList.get(i));
-            totalPrice=totalPrice.add(mealPrice.multiply(new BigDecimal((Integer)mealNumList.get(i))));
-            totalPrice=totalPrice.add(roomPrice);
-            if (discount) {
-                totalPrice =totalPrice.multiply(new BigDecimal("0.8"));
-            }
-            totalPrice=totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+            totalPrice = totalPrice.add(mealPrice.multiply(new BigDecimal((Integer) mealNumList.get(i))));
         }
+        totalPrice = totalPrice.add(roomPrice);
+        if (discount) {
+            totalPrice = totalPrice.multiply(new BigDecimal("0.8"));
+        }
+        totalPrice = totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+
         return Ret.by("status", true).set("mealNameList", retMealName).set("mealPriceList", retMealPrice).set("orderuser", user.getUsername())
                 .set("mealNumList", retMealNum).set("roomPrice", roomPrice).set("totalPrice", totalPrice).set("order", order).set("isVip", discount);
     }
