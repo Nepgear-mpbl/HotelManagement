@@ -5,7 +5,9 @@
 package cn.zhengzhaoyu.summerSemester.index;
 
 import cn.zhengzhaoyu.summerSemester.common.controller.BaseController_Javadog;
+import cn.zhengzhaoyu.summerSemester.common.intrceptor.UserInterceptorNoDirect_Javadog;
 import cn.zhengzhaoyu.summerSemester.common.intrceptor.UserInterceptor_Javadog;
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 
 /**
@@ -15,6 +17,7 @@ import com.jfinal.aop.Clear;
  * @since  1.0.0
  */
 @Clear({UserInterceptor_Javadog.class})
+@Before({UserInterceptorNoDirect_Javadog.class})
 public class IndexController_Javadog extends BaseController_Javadog{
     /**
      * 渲染主页的页面
